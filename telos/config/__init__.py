@@ -33,3 +33,13 @@ settings = Dynaconf(
     includes=_external_files,  # Customs settings.
     base_dir=_base_dir,  # `settings.BASE_DIR`
 )
+
+
+
+
+from .settings1 import __curr_path__,__model_path__
+from .settings1 import * #formula_model, formula_labels
+# __all__ = (
+#     "__curr_path__",
+#     "__model_path__",
+# )

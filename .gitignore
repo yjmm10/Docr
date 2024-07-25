@@ -179,3 +179,5 @@ venv.bak/
 ### Dynaconf config
 **/*.local.yml
 **/.secrets.yml
+
+telos/models
