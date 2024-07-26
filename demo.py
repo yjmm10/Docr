@@ -1,5 +1,5 @@
-import numpy as np
 import gradio as gr
+import numpy as np
 
 from telos import *
 

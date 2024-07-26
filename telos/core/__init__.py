@@ -1,8 +1,9 @@
-from .base import CVModel,OrtInferSession
-from .detection import YOLOv8,DBNet
-from .recognition import LatexOCR,CRNN
+from .base import CVModel, OrtInferSession
+from .detection import DBNet, YOLOv8
 # from .imageprocess import *
 from .reading_order import ReadingOrder
+from .recognition import CRNN, LatexOCR
+
 # from .classification import *
 
 

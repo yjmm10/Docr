@@ -1,12 +1,13 @@
-from pathlib import Path
-from typing import Union,List
-import numpy as np
 from abc import ABC, abstractmethod
+from pathlib import Path
+from typing import List, Union
+
+import numpy as np
 
 from telos import __project__
-
 from telos.config import __model_path__
-from telos.data import MetaFile,MetaArea,MetaBbox,MetaLayout,MetaText
+from telos.data import MetaArea, MetaBbox, MetaFile, MetaLayout, MetaText
+
 
 class DataWrap:
     def _telos(self,):

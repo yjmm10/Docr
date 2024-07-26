@@ -1,23 +1,21 @@
-import cv2
-import numpy as np
-from pathlib import Path
-from typing import Union,Tuple,List,Optional
-import yaml
-from PIL import Image
+import os
 import re
 import time
 import traceback
-import os
-from onnxruntime import GraphOptimizationLevel, InferenceSession, SessionOptions
 from io import BytesIO
+from pathlib import Path
+from typing import List, Optional, Tuple, Union
 
 import cv2
 import numpy as np
+import yaml
+from onnxruntime import (GraphOptimizationLevel, InferenceSession,
+                         SessionOptions)
 from PIL import Image, UnidentifiedImageError
 from tokenizers import Tokenizer
 from tokenizers.models import BPE
-from telos.core import CVModel, OrtInferSession
 
+from telos.core import CVModel, OrtInferSession
 
 InputType = Union[str, np.ndarray, bytes, Path]
 

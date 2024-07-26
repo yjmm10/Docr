@@ -1,6 +1,7 @@
 
 def test_layout():
     import cv2
+
     from telos import Layout
    
     model = Layout(conf_thres=0.3, iou_thres=0.5)

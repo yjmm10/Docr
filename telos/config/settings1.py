@@ -1,4 +1,5 @@
 import os
+
 __curr_path__ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 __model_path__ = os.path.join(__curr_path__, 'models')

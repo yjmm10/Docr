@@ -1,6 +1,7 @@
 import cv2
 import pytest
 
+
 def test_formula_det():
     
     from telos import DetFormula
@@ -20,8 +21,10 @@ def test_formula_det():
 
 
 def test_latexocr():
-    from telos import LatexOCR
     import os
+
+    from telos import LatexOCR
+
     # assert os.getcwd()==""
 
     engine = LatexOCR(

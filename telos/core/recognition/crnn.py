@@ -1,16 +1,18 @@
 import copy
-import time
-import os
 import math
-import cv2
+import os
 import re
-from telos.config import __model_path__
-from huggingface_hub import snapshot_download
-from telos.core import CVModel
-from typing import List,Union
+import time
+from typing import List, Union
 
+import cv2
 import numpy as np
 import onnxruntime as ort
+from huggingface_hub import snapshot_download
+
+from telos.config import __model_path__
+from telos.core import CVModel
+
 
 class CRNN(CVModel):
     def __init__(self, model_path, **params):

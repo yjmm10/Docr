@@ -1,7 +1,8 @@
 def test_OCR():
-    from telos import OCR
     import cv2
-   
+
+    from telos import OCR
+
     # Initialize YOLOv8 object detector
     model = OCR()
     img = cv2.imread("tests/test_img/test_ocr.png")

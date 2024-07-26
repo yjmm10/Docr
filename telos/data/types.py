@@ -1,12 +1,13 @@
-import fitz
-from pathlib import Path
-import os
-import cv2
-from PIL import Image
-from typing import List, Dict, Optional, Union, Any
-import numpy  as np
-from pydantic import BaseModel
 import datetime
+import os
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Union
+
+import cv2
+import fitz
+import numpy as np
+from PIL import Image
+from pydantic import BaseModel
 
 IMG_FORMATS = {"bmp", "dng", "jpeg", "jpg", "mpo", "png", "tif", "tiff", "webp", "pfm"}  # image suffixes
 PDF_FORMATS = {"pdf"}  # pdf suffixes

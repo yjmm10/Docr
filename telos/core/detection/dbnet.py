@@ -1,12 +1,14 @@
+from typing import List, Union
+
 import cv2
-from typing import List,Union
-from numpy.core.multiarray import array as array
-from telos.core import CVModel
-from shapely.geometry import Polygon
+import numpy as np
 import pyclipper
+from numpy.core.multiarray import array as array
+from shapely.geometry import Polygon
+
+from telos.core import CVModel
 from telos.utils import visual
 
-import numpy as np
 
 class DBNet(CVModel):
     def __init__(self, model_path, labels=["text"], **params):

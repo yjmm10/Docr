@@ -1,8 +1,9 @@
-from typing import List
+import os
+from typing import Dict, List, Union
+
 import cv2
 import numpy as np
-from typing import Union, Dict
-import os
+
 
 class ReadingOrder:
     def __init__(self):

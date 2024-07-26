@@ -1,10 +1,13 @@
-import numpy as np
+from typing import List, Tuple, Union
+
 import cv2
-from typing import List,Tuple,Union
-from telos.core import DBNet, CRNN
-from telos.config import det_text,rec_text
+import numpy as np
+
+from telos.config import det_text, rec_text
+from telos.core import CRNN, DBNet
 
 from .base import DataWrap
+
 
 class OCR(DBNet, CRNN):
     def __init__(self,**params):
