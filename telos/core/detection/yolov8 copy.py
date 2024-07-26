@@ -3,11 +3,12 @@
 
 import time
 from pathlib import Path
+
 import cv2
 import numpy as np
 import onnxruntime as ort
-from telos.config import __model_path__
 
+from telos.config import __model_path__
 from telos.utils import visual
 
 

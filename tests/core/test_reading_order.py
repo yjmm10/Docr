@@ -1,6 +1,7 @@
 
-import pytest
 import cv2
+import pytest
+
 
 def test_xy_cut():   
     from telos import ReadingOrder

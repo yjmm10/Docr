@@ -1,5 +1,6 @@
-from telos.core import YOLOv8
 from telos.config import det_formula
+from telos.core import YOLOv8
+
 # from .base import DataWrap
 # from telos.data import MetaFile,MetaArea,MetaBbox,MetaLayout,MetaText
 

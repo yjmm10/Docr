@@ -1,10 +1,12 @@
 
-import pytest
 import cv2
+import pytest
+
 
 def test_crnnnet():   
-    from telos import CRNN
     import cv2
+
+    from telos import CRNN
     model_path = "recognition/rec_text"
 
     model = CRNN(model_path)

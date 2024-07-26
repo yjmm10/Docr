@@ -1,7 +1,8 @@
 from pathlib import Path
 
-import pytest
 import cv2
+import pytest
+
 
 def test_dbnet():    
 

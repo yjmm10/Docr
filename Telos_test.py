@@ -1,5 +1,6 @@
 import telos
 from telos import YOLOv8
+
 print(telos.__version__)
 # print(telos.check_source())
 # result = telos.MetaFile(file_path="demo_1.png")
@@ -46,6 +47,7 @@ def test_yolo():
 
 def test_layout():
     import cv2
+
     from telos import Layout
    
     model = Layout(conf_thres=0.3, iou_thres=0.5)
@@ -62,6 +64,7 @@ def test_layout():
 
 def test_formula():
     import cv2
+
     from telos import DetFormula
    
     model = DetFormula(conf_thres=0.3, iou_thres=0.5)
@@ -79,6 +82,7 @@ def test_formula():
 
 def test_latexocr():
     import cv2
+
     from telos import LatexOCR
 
     engine = LatexOCR(
@@ -99,8 +103,9 @@ def test_latexocr():
     # combined_img = model.draw_detections(img,mask_alpha=0.2)
     # cv2.imwrite("output-formula.jpg", combined_img)
 def test_dbnet():
-    from telos import DBNet
     import cv2
+
+    from telos import DBNet
     model_path = "detection/det_text.onnx"
 
     # Initialize YOLOv8 object detector
@@ -114,8 +119,9 @@ def test_dbnet():
     cv2.imwrite("output-text.jpg", combined_img)
 
 def test_crnnnet():
-    from telos import CRNN
     import cv2
+
+    from telos import CRNN
     model_path = "/home/zyj/project/MOP/telos/models/recognition/rec_text"
 
     # Initialize YOLOv8 object detector
@@ -131,9 +137,9 @@ def test_crnnnet():
     # cv2.imwrite("output-text.jpg", combined_img)
 
 def test_OCR():
-    from telos import OCR
     import cv2
-   
+
+    from telos import OCR
 
     # Initialize YOLOv8 object detector
     model = OCR()
@@ -150,9 +156,9 @@ def test_OCR():
 
 
 def test_reading_order():
-    from telos import ReadingOrder,Layout,DBNet,OCR
     import cv2
-   
+
+    from telos import OCR, DBNet, Layout, ReadingOrder
 
     # Initialize YOLOv8 object detector
     det = Layout(conf_thres=0.3, iou_thres=0.5)

@@ -1,6 +1,7 @@
-import numpy as np
-from typing import Union,List
+from typing import List, Union
+
 import cv2
+import numpy as np
 
 colors = [
     (255, 0, 0),    # 红色

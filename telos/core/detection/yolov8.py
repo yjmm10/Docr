@@ -1,10 +1,13 @@
+from typing import List, Union
+
 import cv2
 import numpy as np
-from typing import List, Union
+
+from telos.core import CVModel
+from telos.utils import visual
+
 # from numpy.core.multiarray import array as array
 
-from telos.utils import visual
-from telos.core import CVModel
 
 
 

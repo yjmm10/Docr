@@ -1,19 +1,19 @@
-from huggingface_hub import snapshot_download 
-from pathlib import Path
-from typing import Union,List,Tuple,Dict,Any
-import numpy as np
-import cv2
-import onnxruntime as ort
 import time
-from telos.data import *
-from abc import ABC, abstractmethod
 import traceback
+from abc import ABC, abstractmethod
+from pathlib import Path
+from typing import Any, Dict, List, Tuple, Union
 
-from onnxruntime import GraphOptimizationLevel, InferenceSession, SessionOptions
+import cv2
+import numpy as np
+import onnxruntime as ort
+from huggingface_hub import snapshot_download
+from onnxruntime import (GraphOptimizationLevel, InferenceSession,
+                         SessionOptions)
 
 from telos import __project__
-
 from telos.config import __model_path__
+from telos.data import *
 from telos.utils import visual
 
 # version 0.1.0

@@ -1,6 +1,6 @@
-from .layout import Layout
-from .detformula import DetFormula
 from .base import DataWrap
+from .detformula import DetFormula
+from .layout import Layout
 from .ocr import OCR
 
 __all__ = [

@@ -1,5 +1,6 @@
 import os
-import fitz
 from pathlib import Path
-from PIL import Image
+
+import fitz
 import numpy as np
+from PIL import Image
