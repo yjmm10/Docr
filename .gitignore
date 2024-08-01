@@ -181,3 +181,4 @@ venv.bak/
 **/.secrets.yml
 
 telos/models
+output-*
