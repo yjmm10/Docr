@@ -67,7 +67,7 @@ def test_lore():
 
 def test_lore_ocr():    
 
-    from telos import Lore,OCR
+    from telos import OCR, Lore
     
     ocr = OCR()
     model_path = "detection"

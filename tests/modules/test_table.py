@@ -1,7 +1,8 @@
 def test_table_ts():    
 
-    from telos import Table_TSR
     import cv2
+
+    from telos import Table_TSR
 
     model = Table_TSR()
     img = cv2.imread("./tests/test_img/test_lore.jpg")

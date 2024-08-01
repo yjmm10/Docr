@@ -1,12 +1,11 @@
 import argparse
-import random
 import logging
+import random
 import time
-import warnings
 import traceback
+import warnings
 from pathlib import Path
 from typing import Any, Dict, List, Tuple, Union
-from telos.core import CVModel,OrtInferSession
 
 import cv2
 import numpy as np
@@ -14,6 +13,7 @@ import shapely
 from shapely.geometry import MultiPoint, Polygon
 
 from telos.config import __model_path__
+from telos.core import CVModel, OrtInferSession
 
 # suppress warnings
 warnings.filterwarnings("ignore")
