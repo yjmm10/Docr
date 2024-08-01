@@ -30,6 +30,16 @@ det_text = {
                 "use_dilation": False, "score_mode": "fast", 
                 "box_type": "quad"}
 }
+
+# 检测表单结构
+det_ts = {
+    'model_path': 'detection',
+    'config':{  "det_name":"lore_detect.onnx",
+                "process_name": "lore_process.onnx", 
+                "input_shape": [768,768],
+                }
+}
+
 det_formula = {
     'model_path': 'detection/yolov8m_formula.onnx',
     'labels': ['Paragraph',
