@@ -50,3 +50,35 @@ def test_yolov8():
     # Draw detections
     combined_img = model.draw_detections(img)
     cv2.imwrite("output-yolov8.jpg", combined_img)
+
+def test_lore():    
+
+    from telos import Lore
+
+    model_path = "detection"
+
+    model = Lore(model_path)
+    img = cv2.imread("./tests/test_img/test_lore.jpg")
+    result = model(img)
+    show_img = model.visual(img)
+    
+    cv2.imwrite("output-lore.jpg", show_img)    
+
+# def test_lore_ocr():    
+
+#     from telos import Lore
+#     from rapidocr_onnxruntime import RapidOCR
+#     ocr = RapidOCR()
+#     model_path = "detection"
+
+#     model = Lore(model_path)
+#     img = cv2.imread("./tests/test_img/test_lore.jpg")
+#     result = model(img)
+#     show_img = model.visual(img)
+#     cv2.imwrite("output-lore.jpg", show_img)    
+#     res_table = engine.post_process_4ocr(img, table_str,ocr)
+#     # # print(table_str)
+#     # # print(elapse)
+
+#     with open(f"output-lore-ocr.html", "w", encoding="utf-8") as f:
+#         f.write(res_table)
