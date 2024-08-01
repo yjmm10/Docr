@@ -17,10 +17,17 @@ class OCR(DBNet, CRNN):
 
         self.drop_score = params.get("drop_score",0.5)
     
-    def __call__(self,image:np.ndarray)->List[Union[List,Tuple]]:
+    def __call__(self,image:np.ndarray,use_det=True, use_cls=True, use_rec=True)->List[Union[List,Tuple]]:
+        if not use_det:
+            rec_result = self.crnn(image)
+            if rec_result is not None:
+                self.result = rec_result
+                return rec_result
+            else:
+                return None
+        
         res_bbox = self.dbnet(image)
         assert res_bbox is not None,'detect text failed'
-        
         # filter_boxes, filter_rec_res = [], []
         res_texts = []
         # res_scores = []

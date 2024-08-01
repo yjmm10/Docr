@@ -12,8 +12,9 @@ def test_dbnet():
 
     # Initialize YOLOv8 object detector
     model = DBNet(model_path,labels=["text"])
-    img = cv2.imread("./tests/test_img/page_p0.png")
+    img = cv2.imread("./tests/test_img/test_dbnet.png")
     result = model(img)
+    # assert result == None,print(result)
 
     # Draw detections
     combined_img = model.draw_detections(img,mask_alpha=0.2)
@@ -64,21 +65,17 @@ def test_lore():
     
     cv2.imwrite("output-lore.jpg", show_img)    
 
-# def test_lore_ocr():    
+def test_lore_ocr():    
 
-#     from telos import Lore
-#     from rapidocr_onnxruntime import RapidOCR
-#     ocr = RapidOCR()
-#     model_path = "detection"
+    from telos import Lore,OCR
+    
+    ocr = OCR()
+    model_path = "detection"
 
-#     model = Lore(model_path)
-#     img = cv2.imread("./tests/test_img/test_lore.jpg")
-#     result = model(img)
-#     show_img = model.visual(img)
-#     cv2.imwrite("output-lore.jpg", show_img)    
-#     res_table = engine.post_process_4ocr(img, table_str,ocr)
-#     # # print(table_str)
-#     # # print(elapse)
+    model = Lore(model_path)
+    img = cv2.imread("./tests/test_img/test_lore.jpg")
+    result = model(img)
 
-#     with open(f"output-lore-ocr.html", "w", encoding="utf-8") as f:
-#         f.write(res_table)
+    res_table = model.post_process_4ocr(img, result,ocr)
+    with open(f"output-lore-ocr.html", "w", encoding="utf-8") as f:
+        f.write(res_table)

@@ -143,10 +143,11 @@ def test_OCR():
 
     # Initialize YOLOv8 object detector
     model = OCR()
-    img = cv2.imread("/home/zyj/project/MOP/test_img/page_p0.png")
+    img = cv2.imread("/nas/projects/Github/Telos/tests/test_img/test_ocr.png")
     result = model(img)
-    res_telos = model._telos()
-    print(model._json())
+    print(result)
+    # res_telos = model._telos()
+    # print(model._json())
     # print(result)
     # print(res_telos)
 
@@ -154,6 +155,19 @@ def test_OCR():
     # combined_img = model.draw_detections(img,mask_alpha=0.2)
     # cv2.imwrite("output-text.jpg", combined_img)
 
+def test_OCR_wo_det():
+    import cv2
+
+    from telos import OCR
+
+    # Initialize YOLOv8 object detector
+    model = OCR()
+    img = cv2.imread("/nas/projects/Github/Telos/tests/test_img/test_crnnnet.png")
+    result = model(img,use_det=False)
+    
+    # TODO:可视化
+    res_telos = model._telos()
+    print(model._json())
 
 def test_reading_order():
     import cv2
@@ -185,13 +199,35 @@ def test_reading_order():
     # combined_img = model.draw_detections(img,mask_alpha=0.2)
     # cv2.imwrite("output-text.jpg", combined_img)
 
+def test_Table():
+    import cv2
+
+    from telos import Table_TSR
+
+    # Initialize YOLOv8 object detector
+    model = Table_TSR()
+    img = cv2.imread("/nas/projects/Github/Telos/tests/test_img/test_lore.jpg")
+    result = model(img)
+    print(result)
+    # res_telos = model._telos()
+    # print(model._json())
+    # print(result)
+    # print(res_telos)
+
+    # # Draw detections
+    # combined_img = model.draw_detections(img,mask_alpha=0.2)
+    # cv2.imwrite("output-text.jpg", combined_img)
+
 
 if __name__ == "__main__":
     # test_yolo()
-    test_layout()
+    # test_layout()
     # test_formula()
     # test_latexocr()
     # test_dbnet()
     # test_crnnnet()
-    test_OCR()
+    # test_OCR()
+    # test_OCR_wo_det()
+
     # test_reading_order()
+    test_Table()

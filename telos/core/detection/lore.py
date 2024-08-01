@@ -61,7 +61,10 @@ class Lore:
         
         # 使用ocr引擎
         img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-        ocr_res, _ = ocr(img)
+        ocr_result = ocr(img)
+        # 根据rapidocr方式转换格式
+        ocr_res = [[  [[box[0], box[1]], [box[2], box[1]], [box[2], box[3]], [box[0], box[3]]] , text[0],text[1]] for box, text in list(zip(ocr_result[0], ocr_result[3]))]
+
         logi_points = self.filter_logi_points(self.slct_logi)
         
         cell_box_map = match_ocr_cell(sorted_polygons, ocr_res)
@@ -153,7 +156,7 @@ class Lore:
                 crop_img, 2, 2, 100, 100, cv2.BORDER_CONSTANT, value=(255, 255, 255)
             )
             # if ocr:
-            rec_res, _ = ocr(pad_img, use_det=False, use_cls=True, use_rec=True)
+            rec_res = ocr(pad_img, use_det=False, use_cls=True, use_rec=True)[0][0]
             # else:
             #     rec_res, _ = self.ocr(pad_img, use_det=False, use_cls=True, use_rec=True)
             cell_box_map[k] = [rec_res[0][0]]
