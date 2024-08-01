@@ -6,6 +6,9 @@ LABEL description="🛠️  Component design with module-based functionality, al
 
 WORKDIR /app
 
-ADD . ./
+COPY . ./app
 
+RUN poetry install
+
+RUN pytest
 # CMD ["python"]
