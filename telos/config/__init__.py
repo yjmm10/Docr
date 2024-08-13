@@ -8,7 +8,6 @@ from pathlib import Path
 
 from dynaconf import Dynaconf
 
-
 _base_dir = Path(__file__).parent.parent
 
 _settings_files = [
@@ -34,8 +33,8 @@ settings = Dynaconf(
 )
 
 
-from .settings1 import __curr_path__, __model_path__
 from .settings1 import *  # formula_model, formula_labels
+from .settings1 import __curr_path__, __model_path__
 
 # __all__ = (
 #     "__curr_path__",

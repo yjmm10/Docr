@@ -1,6 +1,5 @@
 from .base import CVModel, OrtInferSession
 from .detection import DBNet, Lore, YOLOv8
-
 # from .imageprocess import *
 from .reading_order import ReadingOrder
 from .recognition import CRNN, LatexOCR

@@ -3,17 +3,8 @@ import numpy as np
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import FileResponse, JSONResponse
 
-from telos import (
-    CRNN,
-    OCR,
-    DBNet,
-    DetFormula,
-    LatexOCR,
-    Layout,
-    ReadingOrder,
-    Table_TSR,
-    YOLOv8,
-)
+from telos import (CRNN, OCR, DBNet, DetFormula, LatexOCR, Layout,
+                   ReadingOrder, Table_TSR, YOLOv8)
 
 app = FastAPI()
 

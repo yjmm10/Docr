@@ -9,7 +9,8 @@ from typing import List, Optional, Tuple, Union
 import cv2
 import numpy as np
 import yaml
-from onnxruntime import GraphOptimizationLevel, InferenceSession, SessionOptions
+from onnxruntime import (GraphOptimizationLevel, InferenceSession,
+                         SessionOptions)
 from PIL import Image, UnidentifiedImageError
 from tokenizers import Tokenizer
 from tokenizers.models import BPE
