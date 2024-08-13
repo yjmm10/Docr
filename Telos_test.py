@@ -60,7 +60,7 @@ def test_layout():
 
     # Draw detections
     combined_img = model.draw_detections(img,mask_alpha=0.2)
-    cv2.imwrite("output-layout.jpg", combined_img)
+    cv2.imwrite("tests/output/output-layout.jpg", combined_img)
 
 def test_formula():
     import cv2
@@ -78,7 +78,7 @@ def test_formula():
 
     # Draw detections
     combined_img = model.draw_detections(img,mask_alpha=0.2)
-    cv2.imwrite("output-formula.jpg", combined_img)
+    cv2.imwrite("tests/output/output-formula.jpg", combined_img)
 
 def test_latexocr():
     import cv2
@@ -101,7 +101,7 @@ def test_latexocr():
 
     # # Draw detections
     # combined_img = model.draw_detections(img,mask_alpha=0.2)
-    # cv2.imwrite("output-formula.jpg", combined_img)
+    # cv2.imwrite("tests/output/output-formula.jpg", combined_img)
 def test_dbnet():
     import cv2
 
@@ -116,7 +116,7 @@ def test_dbnet():
 
     # Draw detections
     combined_img = model.draw_detections(img,mask_alpha=0.2)
-    cv2.imwrite("output-text.jpg", combined_img)
+    cv2.imwrite("tests/output/output-text.jpg", combined_img)
 
 def test_crnnnet():
     import cv2
@@ -134,7 +134,7 @@ def test_crnnnet():
     print(result)
     # # Draw detections
     # combined_img = model.draw_detections(img,mask_alpha=0.2)
-    # cv2.imwrite("output-text.jpg", combined_img)
+    # cv2.imwrite("tests/output/output-text.jpg", combined_img)
 
 def test_OCR():
     import cv2
@@ -153,7 +153,7 @@ def test_OCR():
 
     # # Draw detections
     # combined_img = model.draw_detections(img,mask_alpha=0.2)
-    # cv2.imwrite("output-text.jpg", combined_img)
+    # cv2.imwrite("tests/output/output-text.jpg", combined_img)
 
 def test_OCR_wo_det():
     import cv2
@@ -186,7 +186,7 @@ def test_reading_order():
 
     # # Draw detections
     # combined_img = model.draw_detections(img,mask_alpha=0.2)
-    # cv2.imwrite("output-layout.jpg", combined_img)
+    # cv2.imwrite("tests/output/output-layout.jpg", combined_img)
 
     model = ReadingOrder()
     # img = cv2.imread("/home/zyj/project/MOP/test_img/page_p0.png")
@@ -197,7 +197,7 @@ def test_reading_order():
 
     # # Draw detections
     # combined_img = model.draw_detections(img,mask_alpha=0.2)
-    # cv2.imwrite("output-text.jpg", combined_img)
+    # cv2.imwrite("tests/output/output-text.jpg", combined_img)
 
 def test_Table():
     import cv2
@@ -216,7 +216,7 @@ def test_Table():
 
     # # Draw detections
     # combined_img = model.draw_detections(img,mask_alpha=0.2)
-    # cv2.imwrite("output-text.jpg", combined_img)
+    # cv2.imwrite("tests/output/output-text.jpg", combined_img)
 
 
 if __name__ == "__main__":

@@ -18,7 +18,7 @@ def test_dbnet():
 
     # Draw detections
     combined_img = model.draw_detections(img,mask_alpha=0.2)
-    cv2.imwrite("output-dbnet.jpg", combined_img)
+    cv2.imwrite("tests/output/output-dbnet.jpg", combined_img)
 
 
 
@@ -50,7 +50,7 @@ def test_yolov8():
 
     # Draw detections
     combined_img = model.draw_detections(img)
-    cv2.imwrite("output-yolov8.jpg", combined_img)
+    cv2.imwrite("tests/output/output-yolov8.jpg", combined_img)
 
 def test_lore():    
 
@@ -63,7 +63,7 @@ def test_lore():
     result = model(img)
     show_img = model.visual(img)
     
-    cv2.imwrite("output-lore.jpg", show_img)    
+    cv2.imwrite("tests/output/output-lore.jpg", show_img)    
 
 def test_lore_ocr():    
 
@@ -77,5 +77,5 @@ def test_lore_ocr():
     result = model(img)
 
     res_table = model.post_process_4ocr(img, result,ocr)
-    with open(f"output-lore-ocr.html", "w", encoding="utf-8") as f:
+    with open(f"tests/output/output-lore-ocr.html", "w", encoding="utf-8") as f:
         f.write(res_table)

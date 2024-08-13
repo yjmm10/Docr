@@ -182,3 +182,4 @@ venv.bak/
 
 telos/models
 output-*
+tests/output

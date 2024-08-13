@@ -17,7 +17,7 @@ def test_formula_det():
 
     # Draw detections
     combined_img = model.draw_detections(img,mask_alpha=0.2)
-    cv2.imwrite("output-formula-det.jpg", combined_img)
+    cv2.imwrite("tests/output/output-formula-det.jpg", combined_img)
 
 
 def test_latexocr():

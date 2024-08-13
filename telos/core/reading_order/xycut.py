@@ -30,7 +30,7 @@ class ReadingOrder:
         if order is None:
             order = self.result
         
-        saved_path = os.path.join(output,filename+".png")
+        saved_path = os.path.join(output, "tests", "output", filename+".png")
         sorted_boxes = data[np.array(order)].tolist()
         reading_order_img = self.vis_polygons_with_index(image, [self.bbox2points(it) for it in sorted_boxes])
         cv2.imwrite(saved_path, reading_order_img)
@@ -46,7 +46,7 @@ class ReadingOrder:
         self.recursive_xy_cut(np.asarray(data).astype(int), np.arange(len(data)), result)
         
         if visual:
-            saved_path = os.path.join(self.saved_dir,"output-reading_order.png")
+            saved_path = os.path.join(self.saved_dir,"tests/output/output-reading_order.png")
             sorted_boxes = data[np.array(result)].tolist()
             reading_order_img = self.vis_polygons_with_index(image, [self.bbox2points(it) for it in sorted_boxes])
             cv2.imwrite(saved_path, reading_order_img)
