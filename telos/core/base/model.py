@@ -47,7 +47,7 @@ from telos.utils import visual
 
 #         # print(f"Inference time: {(time.perf_counter() - start)*1000:.2f} ms")
 #         return outputs
-    
+
 #     def load_model(self, model_path):
 #         assert Path(model_path).exists(), f"Model path {model_path} does not exist."
 #         options = ort.SessionOptions()
@@ -55,7 +55,7 @@ from telos.utils import visual
 #         options.execution_mode = self.execution_mode
 #         options.intra_op_num_threads = self.intra_op_num_threads
 #         options.inter_op_num_threads = self.inter_op_num_threads
-        
+
 #         self.session = ort.InferenceSession(model_path, options=options, providers=ort.get_available_providers())
 #         # Get model info
 #         self.get_model_input()
@@ -88,22 +88,21 @@ from telos.utils import visual
 #         input_tensor = input_img[np.newaxis, :, :, :].astype(np.float32)
 
 #         return input_tensor
-    
 
 
 #     @abstractmethod
 #     def post_process(self, output):
 #         pass
 #         # return None,None,None
-    
+
 #     def draw_detections(self, image, draw_scores=True, mask_alpha=0.4):
-#         return visual(image, 
-#                       self.boxes, 
-#                       self.class_ids, 
-#                       class_names=self.class_names, 
-#                       scores=self.scores, 
+#         return visual(image,
+#                       self.boxes,
+#                       self.class_ids,
+#                       class_names=self.class_names,
+#                       scores=self.scores,
 #                       mask_alpha=mask_alpha)
-    
+
 
 # version 0.1.0
 class CVModel(ABC):
@@ -112,77 +111,87 @@ class CVModel(ABC):
     ort_infer = None
     input_shape = None
     cost_time = 0
-    def __init__(self, model_path:Union[str,Path], labels: List, **params):
+
+    def __init__(self, model_path: Union[str, Path], labels: List, **params):
         self.class_names = labels
 
         # Initialize model
         model_path = Path(__model_path__) / model_path
 
-        self.ort_infer = OrtInferSession(model_path,**params)
+        self.ort_infer = OrtInferSession(model_path, **params)
         self.input_shape = self.ort_infer.input_shape
 
     # 单个图像的前处理
     @abstractmethod
     def pre_process(self, image: np.ndarray) -> np.ndarray:
         pass
-    
+
     # 单个图像的后处理
     @abstractmethod
-    def post_process(self, output:np.ndarray) -> List[Union[np.ndarray,List,str]]:
+    def post_process(self, output: np.ndarray) -> List[Union[np.ndarray, List, str]]:
         pass
 
     # 自动判断批处理与单个处理
-    def __call__(self, image: Union[np.array,List],batch=False) -> List[Union[np.ndarray,List,str,float]]:
+    def __call__(
+        self, image: Union[np.array, List], batch=False
+    ) -> List[Union[np.ndarray, List, str, float]]:
         start = time.perf_counter()
-        if isinstance(image,np.ndarray):
+        if isinstance(image, np.ndarray):
             self.result = self.inference(image)
-        if isinstance(image,List):
+        if isinstance(image, List):
             self.result = self.batch_inference(image)
-        self.cost_time = (time.perf_counter() - start)*1000
+        self.cost_time = (time.perf_counter() - start) * 1000
         print(f"Inference time: {self.cost_time:.2f} ms")
         return self.result
-            
+
     # 单个图片的处理
-    def inference(self, image: np.array) -> List[Union[np.ndarray,List,str]]:
-        
-        input_tensor = self.pre_process(image) #[1,64,224,3]
+    def inference(self, image: np.array) -> List[Union[np.ndarray, List, str]]:
+
+        input_tensor = self.pre_process(image)  # [1,64,224,3]
 
         # Perform inference on the image
-        outputs = self.ort_infer([input_tensor])[0] #[1,1,64,224]
-        
+        outputs = self.ort_infer([input_tensor])[0]  # [1,1,64,224]
+
         # 获取结果
         self.result = self.post_process(outputs)
         # self.result = [boxes, scores, class_ids]
         return self.result
-    
-    def batch_inference(self, image: List[np.ndarray]) -> List[Union[np.ndarray,List,str]]:
+
+    def batch_inference(
+        self, image: List[np.ndarray]
+    ) -> List[Union[np.ndarray, List, str]]:
         print("批量测试接口")
         pass
-       
+
     # 绘制图像
     def draw_detections(self, image, draw_scores=True, mask_alpha=0.4):
-        return visual(image, 
-                      self.boxes, 
-                      self.class_ids, 
-                      class_names=self.class_names, 
-                      scores=self.scores, 
-                      mask_alpha=mask_alpha)
-    
+        return visual(
+            image,
+            self.boxes,
+            self.class_ids,
+            class_names=self.class_names,
+            scores=self.scores,
+            mask_alpha=mask_alpha,
+        )
 
     ######################################
     #
     #       格式化内容
     #
     ######################################
-    
-    def _json(self,):
-        return self.__telos(type='Json')
 
-    def _telos(self,):
-        return self.__telos(type='telos')
+    def _json(
+        self,
+    ):
+        return self.__telos(type="Json")
+
+    def _telos(
+        self,
+    ):
+        return self.__telos(type="telos")
 
     # 转化数据格式
-    def __telos(self,type="telos"):
+    def __telos(self, type="telos"):
         assert self.result is not None, print("check the input")
         res_nums = len(self.result)
         # 识别结果
@@ -194,18 +203,34 @@ class CVModel(ABC):
                 if type == "telos":
                     result.append(MetaText(text=text, score=score))
                 if type == "Json":
-                    result.append({'text':text, 'score':score})
+                    result.append({"text": text, "score": score})
             return result
         # 检测结果
         elif res_nums == 3:
             boxes, scores, class_ids = self.result
             result = []
             ids = list(range(len(boxes)))
-            for id,box,score,class_id in zip(ids,boxes, scores, class_ids):
+            for id, box, score, class_id in zip(ids, boxes, scores, class_ids):
                 if type == "telos":
-                    result.append(MetaBbox(id=id,bbox=box,score=score, label = self.class_names[class_id],label_id=class_id))
+                    result.append(
+                        MetaBbox(
+                            id=id,
+                            bbox=box,
+                            score=score,
+                            label=self.class_names[class_id],
+                            label_id=class_id,
+                        )
+                    )
                 if type == "Json":
-                    result.append({'id':id,'bbox': box, 'score': score, 'label':  self.class_names[class_id],'label_id': class_id})
+                    result.append(
+                        {
+                            "id": id,
+                            "bbox": box,
+                            "score": score,
+                            "label": self.class_names[class_id],
+                            "label_id": class_id,
+                        }
+                    )
             return result
 
         elif res_nums == 4:
@@ -213,18 +238,34 @@ class CVModel(ABC):
             boxes, scores, class_ids, text_res = self.result
             result = []
             ids = list(range(len(boxes)))
-            for id,box,score,class_id,text_res in zip(ids,boxes, scores, class_ids, text_res):
-                
+            for id, box, score, class_id, text_res in zip(
+                ids, boxes, scores, class_ids, text_res
+            ):
+
                 if type == "telos":
-                    content = MetaText(text=text_res[0],score=text_res[1])
-                    result.append(MetaBbox(id=id,bbox=box,score=score, label = self.class_names[class_id],label_id=class_id, content=content))
+                    content = MetaText(text=text_res[0], score=text_res[1])
+                    result.append(
+                        MetaBbox(
+                            id=id,
+                            bbox=box,
+                            score=score,
+                            label=self.class_names[class_id],
+                            label_id=class_id,
+                            content=content,
+                        )
+                    )
                 if type == "Json":
-                    result.append({'id':id,'bbox': box, 'score': score, 'label':  self.class_names[class_id],'label_id': class_id,'content':{'text':text_res[0], 'score': text_res[1]}})
+                    result.append(
+                        {
+                            "id": id,
+                            "bbox": box,
+                            "score": score,
+                            "label": self.class_names[class_id],
+                            "label_id": class_id,
+                            "content": {"text": text_res[0], "score": text_res[1]},
+                        }
+                    )
             return result
-
-    
-
-
 
 
 class OrtInferSession:
@@ -249,14 +290,18 @@ class OrtInferSession:
         # 获取模型输入
         self.input_shape = self.session.get_inputs()[0].shape
 
-    def _init_sess_opt(self,**params):
+    def _init_sess_opt(self, **params):
         self.sess_opt = SessionOptions()
-        self.sess_opt.enable_cpu_mem_arena = params.get('enable_cpu_mem_arena',False)
-        self.sess_opt.execution_mode = params.get('execution_mode',ort.ExecutionMode.ORT_SEQUENTIAL)
-        self.sess_opt.intra_op_num_threads = params.get('intra_op_num_threads',2)
-        self.sess_opt.inter_op_num_threads = params.get('inter_op_num_threads',2)
-        self.sess_opt.log_severity_level = params.get('log_severity_level',4)
-        self.sess_opt.graph_optimization_level = params.get('graph_optimization_level',GraphOptimizationLevel.ORT_ENABLE_ALL)
+        self.sess_opt.enable_cpu_mem_arena = params.get("enable_cpu_mem_arena", False)
+        self.sess_opt.execution_mode = params.get(
+            "execution_mode", ort.ExecutionMode.ORT_SEQUENTIAL
+        )
+        self.sess_opt.intra_op_num_threads = params.get("intra_op_num_threads", 2)
+        self.sess_opt.inter_op_num_threads = params.get("inter_op_num_threads", 2)
+        self.sess_opt.log_severity_level = params.get("log_severity_level", 4)
+        self.sess_opt.graph_optimization_level = params.get(
+            "graph_optimization_level", GraphOptimizationLevel.ORT_ENABLE_ALL
+        )
 
     def __call__(self, input_content: List[np.ndarray]) -> np.ndarray:
         input_dict = dict(zip(self.get_input_names(), input_content))

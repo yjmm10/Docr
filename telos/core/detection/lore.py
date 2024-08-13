@@ -18,17 +18,18 @@ from telos.core import CVModel, OrtInferSession
 # suppress warnings
 warnings.filterwarnings("ignore")
 
-class Lore:
-    def __init__(
-        self,
-        model_path, **params
-    ):
 
-        self.config = params.get("config",
-                        {  "det_name":"lore_detect.onnx",
-                            "process_name": "lore_process.onnx", 
-                            "input_shape": [768,768],
-                            })
+class Lore:
+    def __init__(self, model_path, **params):
+
+        self.config = params.get(
+            "config",
+            {
+                "det_name": "lore_detect.onnx",
+                "process_name": "lore_process.onnx",
+                "input_shape": [768, 768],
+            },
+        )
         model_path = Path(__model_path__) / model_path
 
         self.mean = np.array([0.408, 0.447, 0.470], dtype=np.float32).reshape(1, 1, 3)
@@ -57,18 +58,30 @@ class Lore:
             logging.warning(traceback.format_exc())
             return "", 0.0
 
-    def post_process_4ocr(self, img, sorted_polygons,ocr) -> List[Dict[str, Any]]:
-        
+    def post_process_4ocr(self, img, sorted_polygons, ocr) -> List[Dict[str, Any]]:
+
         # 使用ocr引擎
         img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
         ocr_result = ocr(img)
         # 根据rapidocr方式转换格式
-        ocr_res = [[  [[box[0], box[1]], [box[2], box[1]], [box[2], box[3]], [box[0], box[3]]] , text[0],text[1]] for box, text in list(zip(ocr_result[0], ocr_result[3]))]
+        ocr_res = [
+            [
+                [
+                    [box[0], box[1]],
+                    [box[2], box[1]],
+                    [box[2], box[3]],
+                    [box[0], box[3]],
+                ],
+                text[0],
+                text[1],
+            ]
+            for box, text in list(zip(ocr_result[0], ocr_result[3]))
+        ]
 
         logi_points = self.filter_logi_points(self.slct_logi)
-        
+
         cell_box_map = match_ocr_cell(sorted_polygons, ocr_res)
-        cell_box_map = self.re_rec(img, sorted_polygons, cell_box_map,ocr)
+        cell_box_map = self.re_rec(img, sorted_polygons, cell_box_map, ocr)
 
         logi_points = self.sort_logi_by_polygons(
             sorted_polygons, self.polygons, logi_points
@@ -143,7 +156,7 @@ class Lore:
         img: np.ndarray,
         sorted_polygons: np.ndarray,
         cell_box_map: Dict[int, List[str]],
-        ocr=None
+        ocr=None,
     ) -> Dict[int, List[str]]:
         # img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
         """找到poly对应为空的框，尝试将直接将poly框直接送到识别中"""
@@ -162,7 +175,7 @@ class Lore:
             cell_box_map[k] = [rec_res[0][0]]
         return cell_box_map
 
-    def visual(self, img: np.ndarray, polygons: np.ndarray=None) -> np.ndarray:
+    def visual(self, img: np.ndarray, polygons: np.ndarray = None) -> np.ndarray:
         if polygons is None:
             polygons = self.sorted_polygons
         for i, poly in enumerate(polygons):
@@ -177,8 +190,6 @@ class Lore:
             font = cv2.FONT_HERSHEY_SIMPLEX
             cv2.putText(img, str(i), poly[0], font, 1, (0, 0, 255), 1)
         return img
-  
-
 
 
 def sorted_boxes(dt_boxes: np.ndarray) -> np.ndarray:
@@ -379,6 +390,7 @@ def plot_html_table(logi_points: np.ndarray, cell_box_map: Dict[int, List[str]])
     table_str = f"{html_start}{html_middle}{html_end}"
     return table_str
 
+
 def get_rotate_crop_image(img: np.ndarray, points: np.ndarray) -> np.ndarray:
     img_crop_width = int(
         max(
@@ -418,7 +430,6 @@ def get_rotate_crop_image(img: np.ndarray, points: np.ndarray) -> np.ndarray:
 # Part of implementation is adopted from CenterNet,
 # made publicly available under the MIT License at https://github.com/xingyizhou/CenterNet.git
 # ------------------------------------------------------------------------------
-
 
 
 class DetProcess:
@@ -815,8 +826,3 @@ def affine_transform(pt: np.ndarray, t: np.ndarray) -> np.ndarray:
     new_pt = np.array([pt[0], pt[1], 1.0], dtype=np.float32).T
     new_pt = np.dot(t, new_pt)
     return new_pt[:2]
-
-
-
-
-

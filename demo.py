@@ -4,32 +4,34 @@ import numpy as np
 from telos import *
 
 
-def dla(img,conf,iou,model):
+def dla(img, conf, iou, model):
     import cv2
+
     model_path = "detection/yolov8n_cdla.onnx"
 
     # Initialize YOLOv8 object detector
     labels = [
-            "Header",
-            "Text",
-            "Reference",
-            "Figure caption",
-            "Figure",
-            "Table caption",
-            "Table",
-            "Title",
-            "Footer",
-            "Equation",
-            ]
-    model = YOLOv8(model_path, labels=labels,conf_thres=conf, iou_thres=iou)
+        "Header",
+        "Text",
+        "Reference",
+        "Figure caption",
+        "Figure",
+        "Table caption",
+        "Table",
+        "Title",
+        "Footer",
+        "Equation",
+    ]
+    model = YOLOv8(model_path, labels=labels, conf_thres=conf, iou_thres=iou)
     # Detect Objects
     res = model(img)
 
     # Draw detections
-    combined_img = model.draw_detections(img,mask_alpha=0.2)
+    combined_img = model.draw_detections(img, mask_alpha=0.2)
     # print(res)
     # tb_dla_res.change(res)
     return combined_img
+
 
 def flip_text(x):
     return x[::-1]

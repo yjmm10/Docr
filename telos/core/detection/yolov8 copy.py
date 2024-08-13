@@ -15,13 +15,15 @@ from telos.utils import visual
 class YOLOv8:
     def __init__(self, model_path, labels, **params):
 
-        self.enable_cpu_mem_arena = params.get('enable_cpu_mem_arena',False)
-        self.execution_mode = params.get('execution_mode',ort.ExecutionMode.ORT_SEQUENTIAL)
-        self.intra_op_num_threads = params.get('intra_op_num_threads',2)
-        self.inter_op_num_threads = params.get('inter_op_num_threads',2)
+        self.enable_cpu_mem_arena = params.get("enable_cpu_mem_arena", False)
+        self.execution_mode = params.get(
+            "execution_mode", ort.ExecutionMode.ORT_SEQUENTIAL
+        )
+        self.intra_op_num_threads = params.get("intra_op_num_threads", 2)
+        self.inter_op_num_threads = params.get("inter_op_num_threads", 2)
 
-        self.conf_thres = params.get('conf_thres',0.7)
-        self.iou_thres  = params.get('iou_thres',0.5)
+        self.conf_thres = params.get("conf_thres", 0.7)
+        self.iou_thres = params.get("iou_thres", 0.5)
 
         self.class_names = labels
 
@@ -47,13 +49,15 @@ class YOLOv8:
         options.execution_mode = self.execution_mode
         options.intra_op_num_threads = self.intra_op_num_threads
         options.inter_op_num_threads = self.inter_op_num_threads
-        
-        self.session = ort.InferenceSession(model_path, options=options, providers=ort.get_available_providers())
+
+        self.session = ort.InferenceSession(
+            model_path, options=options, providers=ort.get_available_providers()
+        )
         # Get model info
         self.get_model_input()
         self.get_model_output()
 
-    def pre_process(self, image:np.array):
+    def pre_process(self, image: np.array):
         self.img_height, self.img_width = image.shape[:2]
 
         input_img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -68,10 +72,11 @@ class YOLOv8:
 
         return input_tensor
 
-
     def inference(self, input_tensor):
         # start = time.perf_counter()
-        outputs = self.session.run(self.output_names, {self.input_names[0]: input_tensor})
+        outputs = self.session.run(
+            self.output_names, {self.input_names[0]: input_tensor}
+        )
 
         # print(f"Inference time: {(time.perf_counter() - start)*1000:.2f} ms")
         return outputs
@@ -98,7 +103,7 @@ class YOLOv8:
         indices = multiclass_nms(boxes, scores, class_ids, self.iou_thres)
 
         return boxes[indices], scores[indices], class_ids[indices]
-   
+
     def extract_boxes(self, predictions):
         # Extract boxes from predictions
         boxes = predictions[:, :4]
@@ -115,19 +120,24 @@ class YOLOv8:
     def rescale_boxes(self, boxes):
 
         # Rescale boxes to original image dimensions
-        input_shape = np.array([self.input_width, self.input_height, self.input_width, self.input_height])
+        input_shape = np.array(
+            [self.input_width, self.input_height, self.input_width, self.input_height]
+        )
         boxes = np.divide(boxes, input_shape, dtype=np.float32)
-        boxes *= np.array([self.img_width, self.img_height, self.img_width, self.img_height])
+        boxes *= np.array(
+            [self.img_width, self.img_height, self.img_width, self.img_height]
+        )
         return boxes
 
-    
     def draw_detections(self, image, draw_scores=True, mask_alpha=0.4):
-        return visual(image, 
-                      self.boxes, 
-                      self.class_ids, 
-                      class_names=self.class_names, 
-                      scores=self.scores, 
-                      mask_alpha=mask_alpha)
+        return visual(
+            image,
+            self.boxes,
+            self.class_ids,
+            class_names=self.class_names,
+            scores=self.scores,
+            mask_alpha=mask_alpha,
+        )
 
     def get_model_input(self):
         model_inputs = self.session.get_inputs()
@@ -151,6 +161,7 @@ def xywh2xyxy(x):
     y[..., 3] = x[..., 1] + x[..., 3] / 2
     return y
 
+
 def nms(boxes, scores, iou_thres):
     # Sort by score
     sorted_indices = np.argsort(scores)[::-1]
@@ -172,6 +183,7 @@ def nms(boxes, scores, iou_thres):
 
     return keep_boxes
 
+
 def multiclass_nms(boxes, scores, class_ids, iou_thres):
 
     unique_class_ids = np.unique(class_ids)
@@ -179,13 +191,14 @@ def multiclass_nms(boxes, scores, class_ids, iou_thres):
     keep_boxes = []
     for class_id in unique_class_ids:
         class_indices = np.where(class_ids == class_id)[0]
-        class_boxes = boxes[class_indices,:]
+        class_boxes = boxes[class_indices, :]
         class_scores = scores[class_indices]
 
         class_keep_boxes = nms(class_boxes, class_scores, iou_thres)
         keep_boxes.extend(class_indices[class_keep_boxes])
 
     return keep_boxes
+
 
 def compute_iou(box, boxes):
     # Compute xmin, ymin, xmax, ymax for both boxes
@@ -207,7 +220,8 @@ def compute_iou(box, boxes):
 
     return iou
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     # from imread_from_url import imread_from_url
 
     model_path = "/home/zyj/project/MOP/telos/core/detection/yolov8n_cdla.onnx"

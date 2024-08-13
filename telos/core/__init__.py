@@ -11,16 +11,13 @@ __all__ = (
     # base
     "CVModel",
     "OrtInferSession",
-
     # detection
     "YOLOv8",
     "DBNet",
     "Lore",
-
     # recognition
     "CRNN",
     "LatexOCR",
     # reading_order
     "ReadingOrder",
-    
 )
