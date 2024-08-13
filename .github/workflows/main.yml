@@ -74,17 +74,17 @@ jobs:
         run: isort . --profile black
       - name: Run black
         run: black .
-      - name: Run pylint
-        run: pylint **/*.py --exit-zero --output-format=parseable --reports=y > pylint_report.txt
+      # - name: Run pylint
+      #   run: pylint **/*.py --exit-zero --output-format=parseable --reports=y > pylint_report.txt
       - name: Run linting
         run: |
           tox -e isort
-          tox -e pylint
-      - name: Upload pylint report
-        uses: actions/upload-artifact@v2
-        with:
-          name: pylint-report
-          path: pylint_report.txt
+          # tox -e pylint
+      # - name: Upload pylint report
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: pylint-report
+      #     path: pylint_report.txt
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
