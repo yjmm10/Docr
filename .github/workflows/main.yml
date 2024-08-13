@@ -30,15 +30,15 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: Install Git LFS
-        if: runner.os != 'Windows'
         run: |
-          curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
-          sudo apt-get install git-lfs
-          git lfs install
-      - name: Install Git LFS (Windows)
-        if: runner.os == 'Windows'
-        run: |
-          choco install git-lfs
+          if [ "$RUNNER_OS" == "Linux" ]; then
+            curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
+            sudo apt-get install git-lfs
+          elif [ "$RUNNER_OS" == "macOS" ]; then
+            brew install git-lfs
+          elif [ "$RUNNER_OS" == "Windows" ]; then
+            choco install git-lfs
+          fi
           git lfs install
       - name: Install dependencies
         run: |
@@ -70,7 +70,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install tox isort black
       - name: Run isort
-        run: isort .
+        run: isort . --profile black
       - name: Run black
         run: black .
       - name: Run linting
