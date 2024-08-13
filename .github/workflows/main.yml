@@ -30,15 +30,16 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: Install Git LFS
+        shell: pwsh
         run: |
-          if [ "$RUNNER_OS" == "Linux" ]; then
+          if ($env:RUNNER_OS -eq "Linux") {
             curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
             sudo apt-get install git-lfs
-          elif [ "$RUNNER_OS" == "macOS" ]; then
+          } elseif ($env:RUNNER_OS -eq "macOS") {
             brew install git-lfs
-          elif [ "$RUNNER_OS" == "Windows" ]; then
+          } elseif ($env:RUNNER_OS -eq "Windows") {
             choco install git-lfs
-          fi
+          }
           git lfs install
       - name: Install dependencies
         run: |
