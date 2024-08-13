@@ -4,42 +4,41 @@ import cv2
 import pytest
 
 
-def test_dbnet():    
+def test_dbnet():
 
     from telos import DBNet
 
     model_path = "detection/det_text.onnx"
 
     # Initialize YOLOv8 object detector
-    model = DBNet(model_path,labels=["text"])
+    model = DBNet(model_path, labels=["text"])
     img = cv2.imread("./tests/test_img/test_dbnet.png")
     result = model(img)
     # assert result == None,print(result)
 
     # Draw detections
-    combined_img = model.draw_detections(img,mask_alpha=0.2)
+    combined_img = model.draw_detections(img, mask_alpha=0.2)
     cv2.imwrite("tests/output/output-dbnet.jpg", combined_img)
 
 
-
-def test_yolov8():    
+def test_yolov8():
     from telos import YOLOv8
-    
+
     model_path = "detection/yolov8n_cdla.onnx"
     labels = [
-            "Header",
-            "Text",
-            "Reference",
-            "Figure caption",
-            "Figure",
-            "Table caption",
-            "Table",
-            "Title",
-            "Footer",
-            "Equation",
-            ]
+        "Header",
+        "Text",
+        "Reference",
+        "Figure caption",
+        "Figure",
+        "Table caption",
+        "Table",
+        "Title",
+        "Footer",
+        "Equation",
+    ]
     # Initialize YOLOv8 object detector
-    model = YOLOv8(model_path, labels=labels,conf_thres=0.3, iou_thres=0.5)
+    model = YOLOv8(model_path, labels=labels, conf_thres=0.3, iou_thres=0.5)
 
     # img_url = "https://live.staticflickr.com/13/19041780_d6fd803de0_3k.jpg"
     # img = imread_from_url(img_url)
@@ -52,7 +51,8 @@ def test_yolov8():
     combined_img = model.draw_detections(img)
     cv2.imwrite("tests/output/output-yolov8.jpg", combined_img)
 
-def test_lore():    
+
+def test_lore():
 
     from telos import Lore
 
@@ -62,13 +62,14 @@ def test_lore():
     img = cv2.imread("./tests/test_img/test_lore.jpg")
     result = model(img)
     show_img = model.visual(img)
-    
-    cv2.imwrite("tests/output/output-lore.jpg", show_img)    
 
-def test_lore_ocr():    
+    cv2.imwrite("tests/output/output-lore.jpg", show_img)
+
+
+def test_lore_ocr():
 
     from telos import OCR, Lore
-    
+
     ocr = OCR()
     model_path = "detection"
 
@@ -76,6 +77,6 @@ def test_lore_ocr():
     img = cv2.imread("./tests/test_img/test_lore.jpg")
     result = model(img)
 
-    res_table = model.post_process_4ocr(img, result,ocr)
+    res_table = model.post_process_4ocr(img, result, ocr)
     with open(f"tests/output/output-lore-ocr.html", "w", encoding="utf-8") as f:
         f.write(res_table)

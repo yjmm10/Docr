@@ -14,22 +14,30 @@ class DBNet(CVModel):
     def __init__(self, model_path, labels=["text"], **params):
         super().__init__(model_path, labels, **params)
 
-        self.config = params.get("config",
-                        {  "limit_side_len":960,
-                            "thresh": 0.3, 
-                            "box_thresh": 0.5, 
-                            "max_candidates": 1000, "unclip_ratio": 1.5, 
-                            "use_dilation": False, "score_mode": "fast", 
-                            "box_type": "quad"})
+        self.config = params.get(
+            "config",
+            {
+                "limit_side_len": 960,
+                "thresh": 0.3,
+                "box_thresh": 0.5,
+                "max_candidates": 1000,
+                "unclip_ratio": 1.5,
+                "use_dilation": False,
+                "score_mode": "fast",
+                "box_type": "quad",
+            },
+        )
 
         self.limit_side_len = self.config.get("limit_side_len", 960)
-        post_params = { "thresh": self.config.get("thresh",0.3), 
-                        "box_thresh": self.config.get("thresh",0.5), 
-                        "max_candidates": self.config.get("max_candidates",1000),
-                        "unclip_ratio": self.config.get("unclip_ratio",1.5), 
-                        "use_dilation": self.config.get("use_dilation",False), 
-                        "score_mode": self.config.get("score_mode","fast"), 
-                        "box_type": self.config.get("box_type","quad")}
+        post_params = {
+            "thresh": self.config.get("thresh", 0.3),
+            "box_thresh": self.config.get("thresh", 0.5),
+            "max_candidates": self.config.get("max_candidates", 1000),
+            "unclip_ratio": self.config.get("unclip_ratio", 1.5),
+            "use_dilation": self.config.get("use_dilation", False),
+            "score_mode": self.config.get("score_mode", "fast"),
+            "box_type": self.config.get("box_type", "quad"),
+        }
         self.postprocess_op = DBPostProcess(**post_params)
 
     def pre_process(self, image: np.array):
@@ -45,20 +53,22 @@ class DBNet(CVModel):
         self.shape_list = np.expand_dims(self.shape_list, axis=0)
         return img
 
-    def post_process(self, output:np.ndarray)->List[Union[np.ndarray,List]]:
+    def post_process(self, output: np.ndarray) -> List[Union[np.ndarray, List]]:
 
         post_result = self.postprocess_op(output, self.shape_list)
-        dt_boxes = post_result[0]['points']
+        dt_boxes = post_result[0]["points"]
         dt_boxes = self.filter_tag_det_res(dt_boxes, self.image_shape)
-        scores = post_result[0]['scores']
+        scores = post_result[0]["scores"]
         # 排序
         sorted_boxes = self.sorted_boxes(dt_boxes)
-        order_index = self.get_sorted_index(dt_boxes,sorted_boxes)
+        order_index = self.get_sorted_index(dt_boxes, sorted_boxes)
         sorted_scores = [scores[i] for i in order_index]
         # 转左上右下坐标
-        sorted_boxes= [self.point2box(points) for points in sorted_boxes]
-        self.result = [sorted_boxes,  sorted_scores,  [0]*len(sorted_boxes)]
-        return self.result # np.array(sorted_boxes),  np.array(sorted_scores),  np.array([0]*len(sorted_boxes))
+        sorted_boxes = [self.point2box(points) for points in sorted_boxes]
+        self.result = [sorted_boxes, sorted_scores, [0] * len(sorted_boxes)]
+        return (
+            self.result
+        )  # np.array(sorted_boxes),  np.array(sorted_scores),  np.array([0]*len(sorted_boxes))
 
     def sorted_boxes(self, dt_boxes):
         """
@@ -74,8 +84,9 @@ class DBNet(CVModel):
 
         for i in range(num_boxes - 1):
             for j in range(i, -1, -1):
-                if abs(_boxes[j + 1][0][1] - _boxes[j][0][1]) < 10 and \
-                        (_boxes[j + 1][0][0] < _boxes[j][0][0]):
+                if abs(_boxes[j + 1][0][1] - _boxes[j][0][1]) < 10 and (
+                    _boxes[j + 1][0][0] < _boxes[j][0][0]
+                ):
                     tmp = _boxes[j]
                     _boxes[j] = _boxes[j + 1]
                     _boxes[j + 1] = tmp
@@ -84,7 +95,7 @@ class DBNet(CVModel):
         return _boxes
 
     @staticmethod
-    def get_sorted_index(a,b):
+    def get_sorted_index(a, b):
         b = np.array(b)
         a = np.array(a)
         # 初始化索引数组
@@ -94,10 +105,9 @@ class DBNet(CVModel):
         for i, item in enumerate(b):
             # np.argwhere会返回数组中满足条件的所有索引，这里我们是查找完全匹配的子数组
             # 我们在这里只取第一个匹配的索引，因为我们假设a的子数组是唯一的
-            index = np.argwhere(np.all(a == item, axis=(1,2)))[0][0]
+            index = np.argwhere(np.all(a == item, axis=(1, 2)))[0][0]
             indexes[i] = index
         return indexes.tolist()
-
 
     def point2box(self, points):
         """
@@ -106,22 +116,24 @@ class DBNet(CVModel):
         output:
             box: [N,2]
         """
-        x = points[:,0]
-        y = points[:,1]
-        x0,x1 = x.min(),x.max()
-        y0,y1 = y.min(), y.max()
-        return [x0,y0,x1,y1]
+        x = points[:, 0]
+        y = points[:, 1]
+        x0, x1 = x.min(), x.max()
+        y0, y1 = y.min(), y.max()
+        return [x0, y0, x1, y1]
 
     def draw_detections(self, image, draw_scores=True, mask_alpha=0.4):
-        boxes, scores, class_ids= self.result 
-        return visual(image, 
-                      boxes, 
-                      class_ids, 
-                      class_names=self.class_names, 
-                      scores=scores, 
-                      mask_alpha=mask_alpha)
+        boxes, scores, class_ids = self.result
+        return visual(
+            image,
+            boxes,
+            class_ids,
+            class_names=self.class_names,
+            scores=scores,
+            mask_alpha=mask_alpha,
+        )
 
-    def resize_image(self, img:np.ndarray):
+    def resize_image(self, img: np.ndarray):
         """max"""
         limit_side_len = self.limit_side_len
         src_h, src_w, _ = img.shape
@@ -132,7 +144,7 @@ class DBNet(CVModel):
             else:
                 ratio = float(limit_side_len) / w
         else:
-            ratio = 1.
+            ratio = 1.0
         resize_h = int(h * ratio)
         resize_w = int(w * ratio)
 
@@ -149,18 +161,18 @@ class DBNet(CVModel):
         self.shape_list = [src_h, src_w, ratio_h, ratio_w]
         return resize_img
 
-    def normalize_image(self, img:np.ndarray):
-        scale =  1.0 / 255.0
+    def normalize_image(self, img: np.ndarray):
+        scale = 1.0 / 255.0
         mean = [0.485, 0.456, 0.406]
         std = [0.229, 0.224, 0.225]
         shape = (1, 1, 3)
-        mean = np.array(mean).reshape(shape).astype('float32')
-        std = np.array(std).reshape(shape).astype('float32')
-        nor_img = (img.astype('float32') * scale - mean) / std
+        mean = np.array(mean).reshape(shape).astype("float32")
+        std = np.array(std).reshape(shape).astype("float32")
+        nor_img = (img.astype("float32") * scale - mean) / std
         return nor_img
-    def tochwImage(self, img:np.ndarray):
+
+    def tochwImage(self, img: np.ndarray):
         return img.transpose((2, 0, 1))
-        
 
     def order_points_clockwise(self, pts):
         rect = np.zeros((4, 2), dtype="float32")
@@ -180,7 +192,7 @@ class DBNet(CVModel):
         return points
 
     def filter_tag_det_res(self, dt_boxes, image_shape):
-        if len(image_shape)==2:
+        if len(image_shape) == 2:
             img_height, img_width = image_shape
         else:
             img_height, img_width = image_shape[0:2]
@@ -209,20 +221,23 @@ class DBNet(CVModel):
         dt_boxes = np.array(dt_boxes_new)
         return dt_boxes
 
+
 class DBPostProcess(object):
     """
     The post process for Differentiable Binarization (DB).
     """
 
-    def __init__(self,
-                 thresh=0.3,
-                 box_thresh=0.7,
-                 max_candidates=1000,
-                 unclip_ratio=2.0,
-                 use_dilation=False,
-                 score_mode="fast",
-                 box_type='quad',
-                 **kwargs):
+    def __init__(
+        self,
+        thresh=0.3,
+        box_thresh=0.7,
+        max_candidates=1000,
+        unclip_ratio=2.0,
+        use_dilation=False,
+        score_mode="fast",
+        box_type="quad",
+        **kwargs
+    ):
         self.thresh = thresh
         self.box_thresh = box_thresh
         self.max_candidates = max_candidates
@@ -231,17 +246,17 @@ class DBPostProcess(object):
         self.score_mode = score_mode
         self.box_type = box_type
         assert score_mode in [
-            "slow", "fast"
+            "slow",
+            "fast",
         ], "Score mode must be in [slow, fast] but got: {}".format(score_mode)
 
-        self.dilation_kernel = None if not use_dilation else np.array(
-            [[1, 1], [1, 1]])
+        self.dilation_kernel = None if not use_dilation else np.array([[1, 1], [1, 1]])
 
     def polygons_from_bitmap(self, pred, _bitmap, dest_width, dest_height):
-        '''
+        """
         _bitmap: single map with shape (1, H, W),
             whose values are binarized as {0, 1}
-        '''
+        """
 
         bitmap = _bitmap
         height, width = bitmap.shape
@@ -249,10 +264,11 @@ class DBPostProcess(object):
         boxes = []
         scores = []
 
-        contours, _ = cv2.findContours((bitmap * 255).astype(np.uint8),
-                                       cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        contours, _ = cv2.findContours(
+            (bitmap * 255).astype(np.uint8), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE
+        )
 
-        for contour in contours[:self.max_candidates]:
+        for contour in contours[: self.max_candidates]:
             epsilon = 0.002 * cv2.arcLength(contour, True)
             approx = cv2.approxPolyDP(contour, epsilon, True)
             points = approx.reshape((-1, 2))
@@ -276,25 +292,26 @@ class DBPostProcess(object):
                 continue
 
             box = np.array(box)
-            box[:, 0] = np.clip(
-                np.round(box[:, 0] / width * dest_width), 0, dest_width)
+            box[:, 0] = np.clip(np.round(box[:, 0] / width * dest_width), 0, dest_width)
             box[:, 1] = np.clip(
-                np.round(box[:, 1] / height * dest_height), 0, dest_height)
+                np.round(box[:, 1] / height * dest_height), 0, dest_height
+            )
             boxes.append(box.tolist())
             scores.append(score)
         return boxes, scores
 
     def boxes_from_bitmap(self, pred, _bitmap, dest_width, dest_height):
-        '''
+        """
         _bitmap: single map with shape (1, H, W),
                 whose values are binarized as {0, 1}
-        '''
+        """
 
         bitmap = _bitmap
         height, width = bitmap.shape
 
-        outs = cv2.findContours((bitmap * 255).astype(np.uint8), cv2.RETR_LIST,
-                                cv2.CHAIN_APPROX_SIMPLE)
+        outs = cv2.findContours(
+            (bitmap * 255).astype(np.uint8), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE
+        )
         if len(outs) == 3:
             img, contours, _ = outs[0], outs[1], outs[2]
         elif len(outs) == 2:
@@ -323,10 +340,10 @@ class DBPostProcess(object):
                 continue
             box = np.array(box)
 
-            box[:, 0] = np.clip(
-                np.round(box[:, 0] / width * dest_width), 0, dest_width)
+            box[:, 0] = np.clip(np.round(box[:, 0] / width * dest_width), 0, dest_width)
             box[:, 1] = np.clip(
-                np.round(box[:, 1] / height * dest_height), 0, dest_height)
+                np.round(box[:, 1] / height * dest_height), 0, dest_height
+            )
             boxes.append(box.astype("int32"))
             scores.append(score)
         return np.array(boxes, dtype="int32"), scores
@@ -357,15 +374,13 @@ class DBPostProcess(object):
             index_2 = 3
             index_3 = 2
 
-        box = [
-            points[index_1], points[index_2], points[index_3], points[index_4]
-        ]
+        box = [points[index_1], points[index_2], points[index_3], points[index_4]]
         return box, min(bounding_box[1])
 
     def box_score_fast(self, bitmap, _box):
-        '''
+        """
         box_score_fast: use bbox mean score as the mean score
-        '''
+        """
         h, w = bitmap.shape[:2]
         box = _box.copy()
         xmin = np.clip(np.floor(box[:, 0].min()).astype("int32"), 0, w - 1)
@@ -377,12 +392,12 @@ class DBPostProcess(object):
         box[:, 0] = box[:, 0] - xmin
         box[:, 1] = box[:, 1] - ymin
         cv2.fillPoly(mask, box.reshape(1, -1, 2).astype("int32"), 1)
-        return cv2.mean(bitmap[ymin:ymax + 1, xmin:xmax + 1], mask)[0]
+        return cv2.mean(bitmap[ymin : ymax + 1, xmin : xmax + 1], mask)[0]
 
     def box_score_slow(self, bitmap, contour):
-        '''
+        """
         box_score_slow: use polyon mean score as the mean score
-        '''
+        """
         h, w = bitmap.shape[:2]
         contour = contour.copy()
         contour = np.reshape(contour, (-1, 2))
@@ -398,7 +413,7 @@ class DBPostProcess(object):
         contour[:, 1] = contour[:, 1] - ymin
 
         cv2.fillPoly(mask, contour.reshape(1, -1, 2).astype("int32"), 1)
-        return cv2.mean(bitmap[ymin:ymax + 1, xmin:xmax + 1], mask)[0]
+        return cv2.mean(bitmap[ymin : ymax + 1, xmin : xmax + 1], mask)[0]
 
     def __call__(self, pred, shape_list):
         # pred = outs_dict['maps']
@@ -413,23 +428,26 @@ class DBPostProcess(object):
             if self.dilation_kernel is not None:
                 mask = cv2.dilate(
                     np.array(segmentation[batch_index]).astype(np.uint8),
-                    self.dilation_kernel)
+                    self.dilation_kernel,
+                )
             else:
                 mask = segmentation[batch_index]
-            if self.box_type == 'poly':
-                boxes, scores = self.polygons_from_bitmap(pred[batch_index],
-                                                          mask, src_w, src_h)
-            elif self.box_type == 'quad':
-                boxes, scores = self.boxes_from_bitmap(pred[batch_index], mask,
-                                                       src_w, src_h)
+            if self.box_type == "poly":
+                boxes, scores = self.polygons_from_bitmap(
+                    pred[batch_index], mask, src_w, src_h
+                )
+            elif self.box_type == "quad":
+                boxes, scores = self.boxes_from_bitmap(
+                    pred[batch_index], mask, src_w, src_h
+                )
             else:
-                raise ValueError(
-                    "box_type can only be one of ['quad', 'poly']")
+                raise ValueError("box_type can only be one of ['quad', 'poly']")
 
-            boxes_batch.append({'points': boxes,'scores':scores})
+            boxes_batch.append({"points": boxes, "scores": scores})
         return boxes_batch
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     # from imread_from_url import imread_from_url
 
     model_path = "/home/zyj/project/MOP/telos/core/detection/yolov8n_cdla.onnx"

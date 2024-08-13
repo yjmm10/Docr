@@ -9,8 +9,7 @@ from typing import List, Optional, Tuple, Union
 import cv2
 import numpy as np
 import yaml
-from onnxruntime import (GraphOptimizationLevel, InferenceSession,
-                         SessionOptions)
+from onnxruntime import GraphOptimizationLevel, InferenceSession, SessionOptions
 from PIL import Image, UnidentifiedImageError
 from tokenizers import Tokenizer
 from tokenizers.models import BPE
@@ -19,25 +18,31 @@ from telos.core import CVModel, OrtInferSession
 
 InputType = Union[str, np.ndarray, bytes, Path]
 
+
 class LatexOCR(CVModel):
-    def __init__(self, model_path: Union[str, Path] = None,
-        **params
-    ):
-        models = params.get("models",
-                    {'decoder':'decoder.onnx',
-                    'encoder':'encoder.onnx',
-                    'image_resizer':'image_resizer.onnx',
-                    'tokenizer':'tokenizer.json'})
-        config = params.get("config",{
-                    'max_width': 672, 
-                    'max_height': 192, 
-                    'min_height': 32, 
-                    'min_width': 32, 
-                    'bos_token': 1, 
-                    'max_seq_len': 512, 
-                    'eos_token': 2, 
-                    'temperature': 0.00001})
-        
+    def __init__(self, model_path: Union[str, Path] = None, **params):
+        models = params.get(
+            "models",
+            {
+                "decoder": "decoder.onnx",
+                "encoder": "encoder.onnx",
+                "image_resizer": "image_resizer.onnx",
+                "tokenizer": "tokenizer.json",
+            },
+        )
+        config = params.get(
+            "config",
+            {
+                "max_width": 672,
+                "max_height": 192,
+                "min_height": 32,
+                "min_width": 32,
+                "bos_token": 1,
+                "max_seq_len": 512,
+                "eos_token": 2,
+                "temperature": 0.00001,
+            },
+        )
 
         self.decoder_path = Path(model_path) / models.get("decoder")
         self.encoder_path = Path(model_path) / models.get("encoder")
@@ -66,7 +71,7 @@ class LatexOCR(CVModel):
     def pre_process(self, image: InputType) -> np.ndarray:
         try:
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-            #self.load_img(image)
+            # self.load_img(image)
         except LoadImageError as exc:
             error_info = traceback.format_exc()
             raise LoadImageError(
@@ -82,8 +87,8 @@ class LatexOCR(CVModel):
                 f"image resizer meets error. Error info is {error_info}"
             ) from e
         return resizered_img
-    
-    def inference(self,input_tensor:np.ndarray):
+
+    def inference(self, input_tensor: np.ndarray):
         try:
             dec = self.encoder_decoder(input_tensor, temperature=self.temperature)
         except Exception as e:
@@ -94,7 +99,7 @@ class LatexOCR(CVModel):
 
         decode = self.tokenizer.token2str(dec)[0]
 
-        return decode #, elapse
+        return decode  # , elapse
 
     def __call__(self, image: np.array):
         start = time.perf_counter()
@@ -171,9 +176,8 @@ class LatexOCR(CVModel):
         return s
 
 
-
 ########################################################
-# 
+#
 #                    模型结构
 #
 ########################################################
@@ -205,6 +209,7 @@ class EncoderDecoder:
         )
         self.result = output
         return output
+
 
 class Decoder:
     def __init__(self, decoder_path: Union[Path, str]):
@@ -328,6 +333,7 @@ class Decoder:
         )
         return samples
 
+
 class LoadImageError(Exception):
     pass
 
@@ -446,13 +452,25 @@ class TokenizerCls:
             for detok in dec
         ]
 
+
 if __name__ == "__main__":
     # downloader = DownloadModel()
     # downloader("decoder.onnx")
     import argparse
+
     parser = argparse.ArgumentParser()
-    parser.add_argument("-model", "--model_path", type=str, default="/home/zyj/project/MOP/telos/models/recognition/rec_formula")
-    parser.add_argument("--img_path", type=str, help="Only img path of the formula.",default="/home/zyj/project/MOP/test_img/formula01.png")
+    parser.add_argument(
+        "-model",
+        "--model_path",
+        type=str,
+        default="/home/zyj/project/MOP/telos/models/recognition/rec_formula",
+    )
+    parser.add_argument(
+        "--img_path",
+        type=str,
+        help="Only img path of the formula.",
+        default="/home/zyj/project/MOP/test_img/formula01.png",
+    )
     args = parser.parse_args()
 
     engine = LatexOCR(

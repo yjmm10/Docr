@@ -5,5 +5,7 @@ from .base import DataWrap
 
 
 class Layout(DataWrap, YOLOv8):
-    def __init__(self,**params):
-        super().__init__(model_path=layout['model_path'],labels=layout['labels'],**params)
+    def __init__(self, **params):
+        super().__init__(
+            model_path=layout["model_path"], labels=layout["labels"], **params
+        )

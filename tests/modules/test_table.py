@@ -1,4 +1,4 @@
-def test_table_ts():    
+def test_table_ts():
 
     import cv2
 

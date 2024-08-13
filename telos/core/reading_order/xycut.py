@@ -8,7 +8,8 @@ import numpy as np
 class ReadingOrder:
     def __init__(self):
         pass
-        self.saved_dir ="."
+        self.saved_dir = "."
+
     #     self.saved_dir = model_info.get('saved_dir',"./visual")
     #     os.makedirs(self.saved_dir,exist_ok=True)
     # #     pass
@@ -23,32 +24,42 @@ class ReadingOrder:
     #         result.layout[idx].order=order
     #     return result
 
-    def draw_result(self, image, order=None, data=None,filename="output-reading_order",output="."):
-        
+    def draw_result(
+        self, image, order=None, data=None, filename="output-reading_order", output="."
+    ):
+
         if data is None:
             data = self.data
         if order is None:
             order = self.result
-        
-        saved_path = os.path.join(output, "tests", "output", filename+".png")
+
+        saved_path = os.path.join(output, "tests", "output", filename + ".png")
         sorted_boxes = data[np.array(order)].tolist()
-        reading_order_img = self.vis_polygons_with_index(image, [self.bbox2points(it) for it in sorted_boxes])
+        reading_order_img = self.vis_polygons_with_index(
+            image, [self.bbox2points(it) for it in sorted_boxes]
+        )
         cv2.imwrite(saved_path, reading_order_img)
         # print(f"saved layout image to {saved_path}")
         # print(f"reading order result:\n{self.result}")
 
     def __call__(self, image, bbox, visual=True):
-        
+
         data = bbox
         print("reading order ...")
         result = []
-        data = np.array(data,dtype=int)
-        self.recursive_xy_cut(np.asarray(data).astype(int), np.arange(len(data)), result)
-        
+        data = np.array(data, dtype=int)
+        self.recursive_xy_cut(
+            np.asarray(data).astype(int), np.arange(len(data)), result
+        )
+
         if visual:
-            saved_path = os.path.join(self.saved_dir,"tests/output/output-reading_order.png")
+            saved_path = os.path.join(
+                self.saved_dir, "tests/output/output-reading_order.png"
+            )
             sorted_boxes = data[np.array(result)].tolist()
-            reading_order_img = self.vis_polygons_with_index(image, [self.bbox2points(it) for it in sorted_boxes])
+            reading_order_img = self.vis_polygons_with_index(
+                image, [self.bbox2points(it) for it in sorted_boxes]
+            )
             cv2.imwrite(saved_path, reading_order_img)
             print(f"saved layout image to {saved_path}")
         print(f"reading order result:\n{result}")
@@ -56,7 +67,7 @@ class ReadingOrder:
         self.data = data
         return result
 
-    def projection_by_bboxes(self,boxes: np.array, axis: int) -> np.ndarray:
+    def projection_by_bboxes(self, boxes: np.array, axis: int) -> np.ndarray:
         """
         通过一组 bbox 获得投影直方图，最后以 per-pixel 形式输出
 
@@ -76,9 +87,10 @@ class ReadingOrder:
             res[start:end] += 1
         return res
 
-
     # from: https://dothinking.github.io/2021-06-19-%E9%80%92%E5%BD%92%E6%8A%95%E5%BD%B1%E5%88%86%E5%89%B2%E7%AE%97%E6%B3%95/#:~:text=%E9%80%92%E5%BD%92%E6%8A%95%E5%BD%B1%E5%88%86%E5%89%B2%EF%BC%88Recursive%20XY,%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%88%92%E5%88%86%E6%AE%B5%E8%90%BD%E3%80%81%E8%A1%8C%E3%80%82
-    def split_projection_profile(self, arr_values: np.array, min_value: float, min_gap: float):
+    def split_projection_profile(
+        self, arr_values: np.array, min_value: float, min_gap: float
+    ):
         """Split projection profile:
 
         ```
@@ -120,7 +132,7 @@ class ReadingOrder:
 
         return arr_start, arr_end
 
-    def recursive_xy_cut(self,boxes: np.ndarray, indices: List[int], res: List[int]):
+    def recursive_xy_cut(self, boxes: np.ndarray, indices: List[int], res: List[int]):
         """
 
         Args:
@@ -173,7 +185,9 @@ class ReadingOrder:
                     x_sorted_boxes_chunk[:, 0] < c1
                 )
                 self.recursive_xy_cut(
-                    x_sorted_boxes_chunk[_indices], x_sorted_indices_chunk[_indices], res
+                    x_sorted_boxes_chunk[_indices],
+                    x_sorted_indices_chunk[_indices],
+                    res,
                 )
 
     @staticmethod
@@ -236,8 +250,8 @@ class ReadingOrder:
         )
         return img
 
-    def vis_points(self,
-        img: np.ndarray, points, texts: List[str] = None, color=(0, 200, 0)
+    def vis_points(
+        self, img: np.ndarray, points, texts: List[str] = None, color=(0, 200, 0)
     ) -> np.ndarray:
         """
 
@@ -286,8 +300,7 @@ class ReadingOrder:
 
         return img
 
-
-    def vis_polygons_with_index(self,image, points):
+    def vis_polygons_with_index(self, image, points):
         texts = [str(i) for i in range(len(points))]
         res_img = self.vis_points(image.copy(), points, texts)
         return res_img

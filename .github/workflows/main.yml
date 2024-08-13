@@ -53,7 +53,7 @@ jobs:
         run: |
           git config --global credential.helper store
           echo "https://USER:$HF_TOKEN@huggingface.co" > ~/.git-credentials
-          git clone https://huggingface.co/liferecors/Telos.git telos/models
+          git clone https://huggingface.co/liferecords/Telos.git telos/models
       - name: Run tests
         run: |
           tox -e py

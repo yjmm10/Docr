@@ -5,9 +5,9 @@ from .ocr import OCR
 from .table import Table_TSR
 
 __all__ = [
-    'Layout',
+    "Layout",
     "DetFormula",
     "DataWrap",
     "OCR",
     "Table_TSR",
-    ]
+]
