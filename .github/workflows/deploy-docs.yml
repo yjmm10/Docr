@@ -20,9 +20,9 @@ jobs:
         run: |
           pip install poetry
           poetry install
-          pip install mkdocs-material
+          pip install mkdocs-material mkdocs
       - name: 构建文档
-        run: poetry run docs-build
+        run: mkdocs build
       - name: 部署到GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
