@@ -42,6 +42,7 @@ black = "^24.8.0"
 
 [tool.poetry.scripts]
 docly = "docly.cmdline:main"
+format = "sh -c 'isort . && black .'"
 
 [build-system]
 requires = ["poetry-core"]
