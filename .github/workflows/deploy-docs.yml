@@ -20,10 +20,11 @@ jobs:
         run: |
           pip install poetry
           poetry install
+          pip install mkdocs-material
       - name: 构建文档
         run: poetry run docs-build
       - name: 部署到GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          personal_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           publish_dir: ./site  # MkDocs默认输出目录
