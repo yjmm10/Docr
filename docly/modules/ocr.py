@@ -3,8 +3,8 @@ from typing import List, Tuple, Union
 import cv2
 import numpy as np
 
-from telos.config import det_text, rec_text
-from telos.core import CRNN, DBNet
+from docly.config import det_text, rec_text
+from docly.core import CRNN, DBNet
 
 from .base import DataWrap
 

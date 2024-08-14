@@ -3,7 +3,7 @@ import pytest
 
 
 def test_xy_cut():
-    from telos import ReadingOrder
+    from docly import ReadingOrder
 
     model = ReadingOrder()
     bboxes = [

@@ -4,7 +4,7 @@ import pytest
 
 def test_formula_det():
 
-    from telos import DetFormula
+    from docly import DetFormula
 
     model = DetFormula(conf_thres=0.3, iou_thres=0.5)
     img = cv2.imread("tests/test_img/formula_page0.jpg")
@@ -12,7 +12,7 @@ def test_formula_det():
     # Detect Objects
     result = model(img)
     # print(result)
-    result_T = model._telos()
+    result_T = model._docly()
     print(result_T)
 
     # Draw detections
@@ -23,12 +23,12 @@ def test_formula_det():
 def test_latexocr():
     import os
 
-    from telos import LatexOCR
+    from docly import LatexOCR
 
     # assert os.getcwd()==""
 
     engine = LatexOCR(
-        model_path="telos/models/recognition/rec_formula",
+        model_path="docly/models/recognition/rec_formula",
     )
     img = cv2.imread("tests/test_img/formula01.png")
     result = engine(img)

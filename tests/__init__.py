@@ -1,8 +1,7 @@
 """Test"""
-
 from pathlib import Path
 
-from telos.config import settings
+from docly.config import settings
 
 
 def merge_test_settings():
@@ -11,8 +10,8 @@ def merge_test_settings():
     :return:
     """
     test_config_path = Path(__file__).parent
-    settings.load_file(test_config_path / "settings.yml")
-    settings.load_file(test_config_path / "settings.local.yml")
+    settings.load_file(test_config_path / 'settings.yml')
+    settings.load_file(test_config_path / 'settings.local.yml')
 
 
 merge_test_settings()

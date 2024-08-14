@@ -3,7 +3,7 @@ import numpy as np
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import FileResponse, JSONResponse
 
-from telos import (CRNN, OCR, DBNet, DetFormula, LatexOCR, Layout,
+from docly import (CRNN, OCR, DBNet, DetFormula, LatexOCR, Layout,
                    ReadingOrder, Table_TSR, YOLOv8)
 
 app = FastAPI()
@@ -47,7 +47,7 @@ async def layout_endpoint(file: UploadFile = File(...)):
 
     model = Layout(conf_thres=0.3, iou_thres=0.5)
     result = model(img)
-    result_T = model._telos()
+    result_T = model._docly()
 
     return JSONResponse(content={"result": result, "result_T": result_T})
 
@@ -60,7 +60,7 @@ async def formula_detection_endpoint(file: UploadFile = File(...)):
 
     model = DetFormula(conf_thres=0.3, iou_thres=0.5)
     result = model(img)
-    result_T = model._telos()
+    result_T = model._docly()
 
     return JSONResponse(content={"result": result, "result_T": result_T})
 
@@ -71,7 +71,7 @@ async def latex_ocr_endpoint(file: UploadFile = File(...)):
     nparr = np.fromstring(contents, np.uint8)
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
-    engine = LatexOCR(model_path="telos/models/recognition/rec_formula")
+    engine = LatexOCR(model_path="docly/models/recognition/rec_formula")
     result = engine(img)
 
     return JSONResponse(content={"result": result})
@@ -146,5 +146,5 @@ if __name__ == "__main__":
 
     # 定义你的模型路径和字典路径
     uvicorn.run(
-        "telos_api:app", host="0.0.0.0", port=8000, reload=True, timeout_keep_alive=30
+        "docly_api:app", host="0.0.0.0", port=8000, reload=True, timeout_keep_alive=30
     )

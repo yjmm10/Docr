@@ -10,8 +10,8 @@ import numpy as np
 import onnxruntime as ort
 from huggingface_hub import snapshot_download
 
-from telos.config import __model_path__
-from telos.core import CVModel
+from docly.config import __model_path__
+from docly.core import CVModel
 
 
 class CRNN(CVModel):

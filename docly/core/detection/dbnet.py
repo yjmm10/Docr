@@ -6,8 +6,8 @@ import pyclipper
 from numpy.core.multiarray import array as array
 from shapely.geometry import Polygon
 
-from telos.core import CVModel
-from telos.utils import visual
+from docly.core import CVModel
+from docly.utils import visual
 
 
 class DBNet(CVModel):
@@ -450,7 +450,7 @@ class DBPostProcess(object):
 if __name__ == "__main__":
     # from imread_from_url import imread_from_url
 
-    model_path = "/home/zyj/project/MOP/telos/core/detection/yolov8n_cdla.onnx"
+    model_path = "/home/zyj/project/MOP/docly/core/detection/yolov8n_cdla.onnx"
 
     # Initialize YOLOv8 object detector
     dbnet = DBNet(model_path)

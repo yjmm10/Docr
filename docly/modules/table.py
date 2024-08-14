@@ -1,9 +1,9 @@
-from telos.config import det_ts
-from telos.core import Lore
-from telos.modules import OCR
+from docly.config import det_ts
+from docly.core import Lore
+from docly.modules import OCR
 
 # from .base import DataWrap
-# from telos.data import MetaFile,MetaArea,MetaBbox,MetaLayout,MetaText
+# from doclydata import MetaFile,MetaArea,MetaBbox,MetaLayout,MetaText
 
 
 # 表格结构检测

@@ -11,10 +11,10 @@ from huggingface_hub import snapshot_download
 from onnxruntime import (GraphOptimizationLevel, InferenceSession,
                          SessionOptions)
 
-from telos import __project__
-from telos.config import __model_path__
-from telos.data import *
-from telos.utils import visual
+from docly import __project__
+from docly.config import __model_path__
+from docly.data import *
+from docly.utils import visual
 
 # version 0.1.0
 # class CVModel(ABC):
@@ -183,15 +183,15 @@ class CVModel(ABC):
     def _json(
         self,
     ):
-        return self.__telos(type="Json")
+        return self.__docly(type="Json")
 
-    def _telos(
+    def _docly(
         self,
     ):
-        return self.__telos(type="telos")
+        return self.__docly(type="docly")
 
     # 转化数据格式
-    def __telos(self, type="telos"):
+    def __docly(self, type="docly"):
         assert self.result is not None, print("check the input")
         res_nums = len(self.result)
         # 识别结果
@@ -200,7 +200,7 @@ class CVModel(ABC):
             result = []
             ids = list(range(len(texts)))
             for text, score in zip(texts, scores):
-                if type == "telos":
+                if type == "docly":
                     result.append(MetaText(text=text, score=score))
                 if type == "Json":
                     result.append({"text": text, "score": score})
@@ -211,7 +211,7 @@ class CVModel(ABC):
             result = []
             ids = list(range(len(boxes)))
             for id, box, score, class_id in zip(ids, boxes, scores, class_ids):
-                if type == "telos":
+                if type == "docly":
                     result.append(
                         MetaBbox(
                             id=id,
@@ -242,7 +242,7 @@ class CVModel(ABC):
                 ids, boxes, scores, class_ids, text_res
             ):
 
-                if type == "telos":
+                if type == "docly":
                     content = MetaText(text=text_res[0], score=text_res[1])
                     result.append(
                         MetaBbox(

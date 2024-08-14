@@ -4,8 +4,8 @@
 # import pytest
 # from click.testing import CliRunner
 
-# from telos import __version__
-# from telos.cmdline import main
+# from docly import __version__
+# from doclycmdline import main
 
 
 # @pytest.mark.parametrize(

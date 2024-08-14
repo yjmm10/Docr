@@ -2,7 +2,7 @@
 
 import pytest
 
-from telos.log import update_log_level, verbose_formatter
+from docly.log import update_log_level, verbose_formatter
 
 
 @pytest.mark.parametrize(

@@ -1,12 +1,12 @@
 [English](README.md) | 中文 | [日语]()
 
-# Telos 🚀
+# Docly 🚀
 
 ## 1. 概述 🌟
 
 🛠️ 组件化设计，让功能模块化，实现按需获取，🚀 易于扩展，使用起来灵活方便，就像搭积木一样简单！
 
-Telos 是一个基于模块化组件的文档分析和处理工具包。它的设计理念注重灵活性和可扩展性，使得各种文档处理功能的扩展和使用变得简单易行，可以根据需要随时添加新功能。
+Docly 是一个基于模块化组件的文档分析和处理工具包。它的设计理念注重灵活性和可扩展性，使得各种文档处理功能的扩展和使用变得简单易行，可以根据需要随时添加新功能。
 
 ## 2. 功能特性 🛠️
 
@@ -28,9 +28,9 @@ Telos 是一个基于模块化组件的文档分析和处理工具包。它的�
 
 1. 克隆仓库：
    ```bash
-   git clone https://github.com/yjmm10/telos.git
-   cd telos
-   git clone https://huggingface.co/liferecords/Telos.git telos/models
+   git clone https://github.com/yjmm10/docly.git
+   cd docly
+   git clone https://huggingface.co/liferecords/Telos.git docly/models
    ```
 
 2. 安装依赖：
@@ -44,7 +44,7 @@ Telos 是一个基于模块化组件的文档分析和处理工具包。它的�
 
 ## 4. 开发 🔬
 
-有关开发的详细信息，请参阅[开发指南](./docs/development.md)。该指南将帮助您设置 IDE 以使用 Telos，包括 SRC Layout 配置。
+有关开发的详细信息，请参阅[开发指南](./docs/development.md)。该指南将帮助您设置 IDE 以使用 Docly，包括 SRC Layout 配置。
 
 ## 5. 贡献 🤝
 

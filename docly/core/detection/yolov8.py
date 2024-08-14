@@ -3,18 +3,20 @@ from typing import List, Union
 import cv2
 import numpy as np
 
-from telos.core import CVModel
-from telos.utils import visual
+from docly.core import CVModel
+from docly.utils import visual
 
 # from numpy.core.multiarray import array as array
+
+
 
 
 class YOLOv8(CVModel):
     def __init__(self, model_path, labels, **params):
         super().__init__(model_path, labels, **params)
-
-        self.conf_thres = params.get("conf_thres", 0.7)
-        self.iou_thres = params.get("iou_thres", 0.5)
+       
+        self.conf_thres = params.get('conf_thres',0.7)
+        self.iou_thres  = params.get('iou_thres',0.5)
 
     def pre_process(self, image: np.ndarray) -> np.ndarray:
         # record the size of Image
@@ -34,7 +36,7 @@ class YOLOv8(CVModel):
 
         return input_tensor
 
-    def post_process(self, output: np.ndarray) -> List[np.ndarray]:
+    def post_process(self, output:np.ndarray) -> List[np.ndarray]:
         predictions = np.squeeze(output[0]).T
 
         # Filter out object confidence scores below thres
@@ -57,6 +59,8 @@ class YOLOv8(CVModel):
 
         return boxes[indices], scores[indices], class_ids[indices]
 
+
+
     def extract_boxes(self, predictions):
         # Extract boxes from predictions
         boxes = predictions[:, :4]
@@ -73,25 +77,20 @@ class YOLOv8(CVModel):
     def rescale_boxes(self, boxes):
 
         # Rescale boxes to original image dimensions
-        input_shape = np.array(
-            [self.input_width, self.input_height, self.input_width, self.input_height]
-        )
+        input_shape = np.array([self.input_width, self.input_height, self.input_width, self.input_height])
         boxes = np.divide(boxes, input_shape, dtype=np.float32)
-        boxes *= np.array(
-            [self.img_width, self.img_height, self.img_width, self.img_height]
-        )
+        boxes *= np.array([self.img_width, self.img_height, self.img_width, self.img_height])
         return boxes
 
+    
     def draw_detections(self, image, draw_scores=True, mask_alpha=0.4):
-        boxes, scores, class_ids = self.result
-        return visual(
-            image,
-            boxes,
-            class_ids,
-            class_names=self.class_names,
-            scores=scores,
-            mask_alpha=mask_alpha,
-        )
+        boxes, scores, class_ids= self.result 
+        return visual(image, 
+                      boxes, 
+                      class_ids, 
+                      class_names=self.class_names, 
+                      scores=scores, 
+                      mask_alpha=mask_alpha)
 
     def get_model_input(self):
         model_inputs = self.session.get_inputs()
@@ -115,7 +114,6 @@ def xywh2xyxy(x):
     y[..., 3] = x[..., 1] + x[..., 3] / 2
     return y
 
-
 def nms(boxes, scores, iou_thres):
     # Sort by score
     sorted_indices = np.argsort(scores)[::-1]
@@ -137,7 +135,6 @@ def nms(boxes, scores, iou_thres):
 
     return keep_boxes
 
-
 def multiclass_nms(boxes, scores, class_ids, iou_thres):
 
     unique_class_ids = np.unique(class_ids)
@@ -145,14 +142,13 @@ def multiclass_nms(boxes, scores, class_ids, iou_thres):
     keep_boxes = []
     for class_id in unique_class_ids:
         class_indices = np.where(class_ids == class_id)[0]
-        class_boxes = boxes[class_indices, :]
+        class_boxes = boxes[class_indices,:]
         class_scores = scores[class_indices]
 
         class_keep_boxes = nms(class_boxes, class_scores, iou_thres)
         keep_boxes.extend(class_indices[class_keep_boxes])
 
     return keep_boxes
-
 
 def compute_iou(box, boxes):
     # Compute xmin, ymin, xmax, ymax for both boxes
@@ -174,11 +170,10 @@ def compute_iou(box, boxes):
 
     return iou
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     # from imread_from_url import imread_from_url
 
-    model_path = "/home/zyj/project/MOP/telos/core/detection/yolov8n_cdla.onnx"
+    model_path = "/home/zyj/project/MOP/docly/core/detection/yolov8n_cdla.onnx"
 
     # Initialize YOLOv8 object detector
     yolov8_detector = YOLOv8(model_path, conf_thres=0.3, iou_thres=0.5)

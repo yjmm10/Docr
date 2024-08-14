@@ -3,9 +3,9 @@
 import click
 from click import Context
 
-from telos import __version__
-from telos.config import settings
-from telos.log import init_log
+from docly import __version__
+from docly.config import settings
+from doclylog import init_log
 
 
 @click.group(invoke_without_command=True)
