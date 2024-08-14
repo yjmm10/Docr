@@ -1,4 +1,4 @@
-name: Deloy Doc
+name: 部署文档
 
 on:
   push:

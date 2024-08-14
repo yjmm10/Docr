@@ -1,4 +1,4 @@
-name: Docr CI/CD
+name: 项目CI/CD
 
 on:
   push:
