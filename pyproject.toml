@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "docr"
-version = "0.0.3"
+version = "0.2.1"
 description = "🛠️ Docr: A modular toolkit for intelligent document analysis and processing. Easy to expand and flexible to use, just like playing with building blocks!"
 readme = "README.md"
 authors = ["liferecords <yjmm10@yeah.net>"]
