@@ -2,10 +2,10 @@
 
 import click
 from click import Context
-from docr.log import init_log
 
 from docr import __version__
 from docr.config import settings
+from docr.log import init_log
 
 
 @click.group(invoke_without_command=True)

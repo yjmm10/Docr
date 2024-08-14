@@ -1,6 +1,7 @@
 """Test log"""
 
 import pytest
+
 from docr.log import update_log_level, verbose_formatter
 
 
