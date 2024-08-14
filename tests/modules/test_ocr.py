@@ -1,7 +1,7 @@
 def test_OCR():
     import cv2
 
-    from telos import OCR
+    from docly import OCR
 
     # Initialize YOLOv8 object detector
     model = OCR()
@@ -10,14 +10,14 @@ def test_OCR():
 
     # TODO:可视化
     # assert result ==""
-    res_telos = model._telos()
+    res_docly = model._docly()
     print(model._json())
 
 
 def test_OCR_wo_det():
     import cv2
 
-    from telos import OCR
+    from docly import OCR
 
     # Initialize YOLOv8 object detector
     model = OCR()

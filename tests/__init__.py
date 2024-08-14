@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from telos.config import settings
+from docly.config import settings
 
 
 def merge_test_settings():

@@ -6,11 +6,20 @@ import numpy as np
 import psutil
 import streamlit as st
 
-from telos import (CRNN, OCR, DBNet, DetFormula, LatexOCR, Layout,
-                   ReadingOrder, Table_TSR, YOLOv8)
+from docly import (
+    CRNN,
+    OCR,
+    DBNet,
+    DetFormula,
+    LatexOCR,
+    Layout,
+    ReadingOrder,
+    Table_TSR,
+    YOLOv8,
+)
 
 st.set_page_config(layout="wide")
-st.title("Telos 演示")
+st.title("docly 演示")
 
 
 @st.cache_data
@@ -160,7 +169,7 @@ if uploaded_file is not None:
 
         elif selected_model == "LatexOCR":
             model = LatexOCR(
-                model_path="telos/models/recognition/rec_formula", max_length=max_length
+                model_path="docly/models/recognition/rec_formula", max_length=max_length
             )
             result = model(image)
             result_image = image  # LatexOCR doesn't modify the image

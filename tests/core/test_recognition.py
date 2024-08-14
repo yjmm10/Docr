@@ -5,7 +5,7 @@ import pytest
 def test_crnnnet():
     import cv2
 
-    from telos import CRNN
+    from docly import CRNN
 
     model_path = "recognition/rec_text"
 
