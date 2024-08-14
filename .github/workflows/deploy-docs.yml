@@ -1,0 +1,29 @@
+name: Deloy Doc
+
+on:
+  push:
+    branches:
+      - develop  # 根据您的主分支名称调整
+      - master
+      - mkdoc
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: 设置Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'  # 根据您的Python版本调整
+      - name: 安装依赖
+        run: |
+          pip install poetry
+          poetry install
+      - name: 构建文档
+        run: poetry run docs-build
+      - name: 部署到GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site  # MkDocs默认输出目录

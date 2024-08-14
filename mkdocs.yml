@@ -1,0 +1,9 @@
+site_name: Docly 文档
+site_url: https://yjmm10.github.io/Docly/
+theme:
+  name: material
+nav:
+  - 首页: index.md
+  - 使用指南: guide.md
+  - 开发文档: development.md
+  - API参考: api.md
