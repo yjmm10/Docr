@@ -6,8 +6,17 @@ import numpy as np
 import psutil
 import streamlit as st
 
-from docly import (CRNN, OCR, DBNet, DetFormula, LatexOCR, Layout,
-                   ReadingOrder, Table_TSR, YOLOv8)
+from docly import (
+    CRNN,
+    OCR,
+    DBNet,
+    DetFormula,
+    LatexOCR,
+    Layout,
+    ReadingOrder,
+    Table_TSR,
+    YOLOv8,
+)
 
 st.set_page_config(layout="wide")
 st.title("docly 演示")

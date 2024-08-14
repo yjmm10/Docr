@@ -8,8 +8,7 @@ import cv2
 import numpy as np
 import onnxruntime as ort
 from huggingface_hub import snapshot_download
-from onnxruntime import (GraphOptimizationLevel, InferenceSession,
-                         SessionOptions)
+from onnxruntime import GraphOptimizationLevel, InferenceSession, SessionOptions
 
 from docly import __project__
 from docly.config import __model_path__
