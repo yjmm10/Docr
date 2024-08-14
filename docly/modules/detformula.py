@@ -1,8 +1,8 @@
-from docly.config import det_formula
-from docly.core import YOLOv8
+from docr.config import det_formula
+from docr.core import YOLOv8
 
 # from .base import DataWrap
-# from doclydata import MetaFile,MetaArea,MetaBbox,MetaLayout,MetaText
+# from docrdata import MetaFile,MetaArea,MetaBbox,MetaLayout,MetaText
 
 
 class DetFormula(YOLOv8):

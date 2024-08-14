@@ -3,8 +3,8 @@ from typing import List, Union
 import cv2
 import numpy as np
 
-from docly.core import CVModel
-from docly.utils import visual
+from docr.core import CVModel
+from docr.utils import visual
 
 # from numpy.core.multiarray import array as array
 
@@ -178,7 +178,7 @@ def compute_iou(box, boxes):
 if __name__ == "__main__":
     # from imread_from_url import imread_from_url
 
-    model_path = "/home/zyj/project/MOP/docly/core/detection/yolov8n_cdla.onnx"
+    model_path = "/home/zyj/project/MOP/docr/core/detection/yolov8n_cdla.onnx"
 
     # Initialize YOLOv8 object detector
     yolov8_detector = YOLOv8(model_path, conf_thres=0.3, iou_thres=0.5)

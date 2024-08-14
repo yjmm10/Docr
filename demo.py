@@ -1,7 +1,7 @@
 import gradio as gr
 import numpy as np
 
-from docly import *
+from docr import *
 
 
 def dla(img, conf, iou, model):

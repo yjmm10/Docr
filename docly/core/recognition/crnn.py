@@ -10,8 +10,8 @@ import numpy as np
 import onnxruntime as ort
 from huggingface_hub import snapshot_download
 
-from docly.config import __model_path__
-from docly.core import CVModel
+from docr.config import __model_path__
+from docr.core import CVModel
 
 
 class CRNN(CVModel):

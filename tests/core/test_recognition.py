@@ -5,7 +5,7 @@ import pytest
 def test_crnnnet():
     import cv2
 
-    from docly import CRNN
+    from docr import CRNN
 
     model_path = "recognition/rec_text"
 

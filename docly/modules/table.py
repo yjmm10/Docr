@@ -1,9 +1,9 @@
-from docly.config import det_ts
-from docly.core import Lore
-from docly.modules import OCR
+from docr.config import det_ts
+from docr.core import Lore
+from docr.modules import OCR
 
 # from .base import DataWrap
-# from doclydata import MetaFile,MetaArea,MetaBbox,MetaLayout,MetaText
+# from docrdata import MetaFile,MetaArea,MetaBbox,MetaLayout,MetaText
 
 
 # 表格结构检测

@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from docly.config import settings
+from docr.config import settings
 
 
 def merge_test_settings():

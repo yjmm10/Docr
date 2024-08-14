@@ -4,8 +4,8 @@
 # import pytest
 # from click.testing import CliRunner
 
-# from docly import __version__
-# from doclycmdline import main
+# from docr import __version__
+# from docrcmdline import main
 
 
 # @pytest.mark.parametrize(

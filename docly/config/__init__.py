@@ -17,7 +17,7 @@ _settings_files = [
 ]
 
 # User configuration. It will be created automatically by the pip installer .
-_external_files = [Path(sys.prefix, "etc", "docly", "settings.yml")]
+_external_files = [Path(sys.prefix, "etc", "docr", "settings.yml")]
 
 
 settings = Dynaconf(

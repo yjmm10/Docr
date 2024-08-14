@@ -1,5 +1,5 @@
-from docly.config import layout
-from docly.core import YOLOv8
+from docr.config import layout
+from docr.core import YOLOv8
 
 from .base import DataWrap
 
