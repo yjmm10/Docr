@@ -236,7 +236,7 @@ class DBPostProcess(object):
         use_dilation=False,
         score_mode="fast",
         box_type="quad",
-        **kwargs
+        **kwargs,
     ):
         self.thresh = thresh
         self.box_thresh = box_thresh
