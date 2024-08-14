@@ -1,4 +1,5 @@
 """Test"""
+
 from pathlib import Path
 
 from docly.config import settings
