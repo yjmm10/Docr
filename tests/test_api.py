@@ -5,7 +5,7 @@ import numpy as np
 import pytest
 from fastapi.testclient import TestClient
 
-from api.docly_api import app
+from api.docr_api import app
 
 client = TestClient(app)
 
@@ -19,55 +19,55 @@ def mock_cv2_imread():
 
 @pytest.fixture
 def mock_ocr():
-    with patch("api.docly_api.OCR") as mock:
+    with patch("api.docr_api.OCR") as mock:
         yield mock
 
 
 @pytest.fixture
 def mock_layout():
-    with patch("api.docly_api.Layout") as mock:
+    with patch("api.docr_api.Layout") as mock:
         yield mock
 
 
 @pytest.fixture
 def mock_reading_order():
-    with patch("api.docly_api.ReadingOrder") as mock:
+    with patch("api.docr_api.ReadingOrder") as mock:
         yield mock
 
 
 @pytest.fixture
 def mock_table_tsr():
-    with patch("api.docly_api.Table_TSR") as mock:
+    with patch("api.docr_api.Table_TSR") as mock:
         yield mock
 
 
 @pytest.fixture
 def mock_yolov8():
-    with patch("api.docly_api.YOLOv8") as mock:
+    with patch("api.docr_api.YOLOv8") as mock:
         yield mock
 
 
 @pytest.fixture
 def mock_detformula():
-    with patch("api.docly_api.DetFormula") as mock:
+    with patch("api.docr_api.DetFormula") as mock:
         yield mock
 
 
 @pytest.fixture
 def mock_latexocr():
-    with patch("api.docly_api.LatexOCR") as mock:
+    with patch("api.docr_api.LatexOCR") as mock:
         yield mock
 
 
 @pytest.fixture
 def mock_dbnet():
-    with patch("api.docly_api.DBNet") as mock:
+    with patch("api.docr_api.DBNet") as mock:
         yield mock
 
 
 @pytest.fixture
 def mock_crnn():
-    with patch("api.docly_api.CRNN") as mock:
+    with patch("api.docr_api.CRNN") as mock:
         yield mock
 
 

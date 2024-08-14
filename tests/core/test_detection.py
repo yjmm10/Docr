@@ -6,7 +6,7 @@ import pytest
 
 def test_dbnet():
 
-    from docly import DBNet
+    from docr import DBNet
 
     model_path = "detection/det_text.onnx"
 
@@ -22,7 +22,7 @@ def test_dbnet():
 
 
 def test_yolov8():
-    from docly import YOLOv8
+    from docr import YOLOv8
 
     model_path = "detection/yolov8n_cdla.onnx"
     labels = [
@@ -54,7 +54,7 @@ def test_yolov8():
 
 def test_lore():
 
-    from docly import Lore
+    from docr import Lore
 
     model_path = "detection"
 
@@ -68,7 +68,7 @@ def test_lore():
 
 def test_lore_ocr():
 
-    from docly import OCR, Lore
+    from docr import OCR, Lore
 
     ocr = OCR()
     model_path = "detection"

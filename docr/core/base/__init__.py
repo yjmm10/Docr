@@ -1,4 +1,4 @@
-from docly.data import IMG_FORMATS, MetaFile
+from docr.data import IMG_FORMATS, MetaFile
 
 from .model import CVModel, OrtInferSession
 

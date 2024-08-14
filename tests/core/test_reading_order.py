@@ -3,7 +3,7 @@ import pytest
 
 
 def test_xy_cut():
-    from docly import ReadingOrder
+    from docr import ReadingOrder
 
     model = ReadingOrder()
     bboxes = [

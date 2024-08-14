@@ -1,6 +1,6 @@
 """Tests"""
 
-from docly import __version__
+from docr import __version__
 
 
 def test_version():

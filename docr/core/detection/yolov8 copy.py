@@ -8,8 +8,8 @@ import cv2
 import numpy as np
 import onnxruntime as ort
 
-from docly.config import __model_path__
-from docly.utils import visual
+from docr.config import __model_path__
+from docr.utils import visual
 
 
 class YOLOv8:
@@ -224,7 +224,7 @@ def compute_iou(box, boxes):
 if __name__ == "__main__":
     # from imread_from_url import imread_from_url
 
-    model_path = "/home/zyj/project/MOP/docly/core/detection/yolov8n_cdla.onnx"
+    model_path = "/home/zyj/project/MOP/docr/core/detection/yolov8n_cdla.onnx"
 
     # Initialize YOLOv8 object detector
     yolov8_detector = YOLOv8(model_path, conf_thres=0.3, iou_thres=0.5)

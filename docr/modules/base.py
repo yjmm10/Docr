@@ -4,13 +4,13 @@ from typing import List, Union
 
 import numpy as np
 
-from docly import __project__
-from docly.config import __model_path__
-from docly.data import MetaArea, MetaBbox, MetaFile, MetaLayout, MetaText
+from docr import __project__
+from docr.config import __model_path__
+from docr.data import MetaArea, MetaBbox, MetaFile, MetaLayout, MetaText
 
 
 class DataWrap:
-    def _docly(
+    def _docr(
         self,
     ):
         res_nums = len(self.result)

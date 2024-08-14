@@ -180,6 +180,6 @@ venv.bak/
 **/*.local.yml
 **/.secrets.yml
 
-docly/models
+docr/models
 output-*
 tests/output

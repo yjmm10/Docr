@@ -1,16 +1,16 @@
-import docly
-from docly import YOLOv8
+import docr
+from docr import YOLOv8
 
-print(docly__version__)
-# print(doclycheck_source())
-# result = doclyMetaFile(file_path="demo_1.png")
+print(docr__version__)
+# print(docrcheck_source())
+# result = docrMetaFile(file_path="demo_1.png")
 # print(result)
-# result = doclyMetaFile(file_path="test_img/PDF.pdf")
+# result = docrMetaFile(file_path="test_img/PDF.pdf")
 # print(result)
-# result = doclyMetaFile(file_path="test_img/SCAN.pdf")
+# result = docrMetaFile(file_path="test_img/SCAN.pdf")
 # print(result)
 
-# result = doclyCVModel("docly")
+# result = docrCVModel("docr")
 # print(result)
 
 
@@ -49,14 +49,14 @@ def test_yolo():
 def test_layout():
     import cv2
 
-    from docly import Layout
+    from docr import Layout
 
     model = Layout(conf_thres=0.3, iou_thres=0.5)
     img = cv2.imread("test_img/page_p6.png")
 
     # Detect Objects
     result = model(img)
-    result_T = model._docly()
+    result_T = model._docr()
     # print(result_T)
 
     # Draw detections
@@ -67,7 +67,7 @@ def test_layout():
 def test_formula():
     import cv2
 
-    from docly import DetFormula
+    from docr import DetFormula
 
     model = DetFormula(conf_thres=0.3, iou_thres=0.5)
     img = cv2.imread("test_img/formula_page0.jpg")
@@ -75,7 +75,7 @@ def test_formula():
     # Detect Objects
     result = model(img)
     # print(result)
-    result_T = model._docly()
+    result_T = model._docr()
     print(result_T)
 
     # Draw detections
@@ -86,10 +86,10 @@ def test_formula():
 def test_latexocr():
     import cv2
 
-    from docly import LatexOCR
+    from docr import LatexOCR
 
     engine = LatexOCR(
-        model_path="docly/models/recognition/rec_formula",
+        model_path="docr/models/recognition/rec_formula",
     )
     img = cv2.imread("/home/zyj/project/MOP/test_img/formula01.png")
     result = engine(img)
@@ -99,7 +99,7 @@ def test_latexocr():
 
     # # Detect Objects
     # result= model(img)
-    # result_T = model._docly()
+    # result_T = model._docr()
     # print(result_T)
 
     # # Draw detections
@@ -110,7 +110,7 @@ def test_latexocr():
 def test_dbnet():
     import cv2
 
-    from docly import DBNet
+    from docr import DBNet
 
     model_path = "detection/det_text.onnx"
 
@@ -128,9 +128,9 @@ def test_dbnet():
 def test_crnnnet():
     import cv2
 
-    from docly import CRNN
+    from docr import CRNN
 
-    model_path = "/home/zyj/project/MOP/docly/models/recognition/rec_text"
+    model_path = "/home/zyj/project/MOP/docr/models/recognition/rec_text"
 
     # Initialize YOLOv8 object detector
     model = CRNN(model_path="recognition/rec_text")
@@ -148,17 +148,17 @@ def test_crnnnet():
 def test_OCR():
     import cv2
 
-    from docly import OCR
+    from docr import OCR
 
     # Initialize YOLOv8 object detector
     model = OCR()
-    img = cv2.imread("/nas/projects/Github/Docly/tests/test_img/test_ocr.png")
+    img = cv2.imread("/nas/projects/Github/Docr/tests/test_img/test_ocr.png")
     result = model(img)
     print(result)
-    # res_docly = model._docly()
+    # res_docr = model._docr()
     # print(model._json())
     # print(result)
-    # print(res_docly)
+    # print(res_docr)
 
     # # Draw detections
     # combined_img = model.draw_detections(img,mask_alpha=0.2)
@@ -168,22 +168,22 @@ def test_OCR():
 def test_OCR_wo_det():
     import cv2
 
-    from docly import OCR
+    from docr import OCR
 
     # Initialize YOLOv8 object detector
     model = OCR()
-    img = cv2.imread("/nas/projects/Github/Docly/tests/test_img/test_crnnnet.png")
+    img = cv2.imread("/nas/projects/Github/Docr/tests/test_img/test_crnnnet.png")
     result = model(img, use_det=False)
 
     # TODO:可视化
-    res_docly = model._docly()
+    res_docr = model._docr()
     print(model._json())
 
 
 def test_reading_order():
     import cv2
 
-    from docly import OCR, DBNet, Layout, ReadingOrder
+    from docr import OCR, DBNet, Layout, ReadingOrder
 
     # Initialize YOLOv8 object detector
     det = Layout(conf_thres=0.3, iou_thres=0.5)
@@ -204,7 +204,7 @@ def test_reading_order():
     result = model(img, bboxs)
     # print(model._json())
     print(result)
-    # print(res_docly)
+    # print(res_docr)
 
     # # Draw detections
     # combined_img = model.draw_detections(img,mask_alpha=0.2)
@@ -214,17 +214,17 @@ def test_reading_order():
 def test_Table():
     import cv2
 
-    from docly import Table_TSR
+    from docr import Table_TSR
 
     # Initialize YOLOv8 object detector
     model = Table_TSR()
-    img = cv2.imread("/nas/projects/Github/Docly/tests/test_img/test_lore.jpg")
+    img = cv2.imread("/nas/projects/Github/Docr/tests/test_img/test_lore.jpg")
     result = model(img)
     print(result)
-    # res_docly = model._docly()
+    # res_docr = model._docr()
     # print(model._json())
     # print(result)
-    # print(res_docly)
+    # print(res_docr)
 
     # # Draw detections
     # combined_img = model.draw_detections(img,mask_alpha=0.2)

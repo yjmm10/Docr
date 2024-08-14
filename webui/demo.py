@@ -6,7 +6,7 @@ import numpy as np
 import psutil
 import streamlit as st
 
-from docly import (
+from docr import (
     CRNN,
     OCR,
     DBNet,
@@ -19,7 +19,7 @@ from docly import (
 )
 
 st.set_page_config(layout="wide")
-st.title("docly 演示")
+st.title("docr 演示")
 
 
 @st.cache_data
@@ -169,7 +169,7 @@ if uploaded_file is not None:
 
         elif selected_model == "LatexOCR":
             model = LatexOCR(
-                model_path="docly/models/recognition/rec_formula", max_length=max_length
+                model_path="docr/models/recognition/rec_formula", max_length=max_length
             )
             result = model(image)
             result_image = image  # LatexOCR doesn't modify the image

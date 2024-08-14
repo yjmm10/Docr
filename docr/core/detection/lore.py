@@ -12,8 +12,8 @@ import numpy as np
 import shapely
 from shapely.geometry import MultiPoint, Polygon
 
-from docly.config import __model_path__
-from docly.core import CVModel, OrtInferSession
+from docr.config import __model_path__
+from docr.core import CVModel, OrtInferSession
 
 # suppress warnings
 warnings.filterwarnings("ignore")

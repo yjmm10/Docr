@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "docly"
+name = "docr"
 version = "0.0.3"
-description = "🛠️ Docly: A modular toolkit for intelligent document analysis and processing. Easy to expand and flexible to use, just like playing with building blocks!"
+description = "🛠️ Docr: A modular toolkit for intelligent document analysis and processing. Easy to expand and flexible to use, just like playing with building blocks!"
 readme = "README.md"
 authors = ["liferecords <yjmm10@yeah.net>"]
 license = "MIT"
@@ -42,9 +42,9 @@ black = "^24.8.0"
 httpx = "^0.27.0"
 
 [tool.poetry.scripts]
-docly = "docly.cmdline:main"
-docs = "docly.docs_commands:serve"
-docs-build = "docly.docs_commands:build"
+docr = "docr.cmdline:main"
+docs = "docr.docs_commands:serve"
+docs-build = "docr.docs_commands:build"
 
 [build-system]
 requires = ["poetry-core"]
