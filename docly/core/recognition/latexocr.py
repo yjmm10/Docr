@@ -15,7 +15,7 @@ from PIL import Image, UnidentifiedImageError
 from tokenizers import Tokenizer
 from tokenizers.models import BPE
 
-from telos.core import CVModel, OrtInferSession
+from docly.core import CVModel, OrtInferSession
 
 InputType = Union[str, np.ndarray, bytes, Path]
 
@@ -464,7 +464,7 @@ if __name__ == "__main__":
         "-model",
         "--model_path",
         type=str,
-        default="/home/zyj/project/MOP/telos/models/recognition/rec_formula",
+        default="/home/zyj/project/MOP/docly/models/recognition/rec_formula",
     )
     parser.add_argument(
         "--img_path",

@@ -1,8 +1,8 @@
-from telos.config import det_formula
-from telos.core import YOLOv8
+from docly.config import det_formula
+from docly.core import YOLOv8
 
 # from .base import DataWrap
-# from telos.data import MetaFile,MetaArea,MetaBbox,MetaLayout,MetaText
+# from doclydata import MetaFile,MetaArea,MetaBbox,MetaLayout,MetaText
 
 
 class DetFormula(YOLOv8):

@@ -8,8 +8,8 @@ import cv2
 import numpy as np
 import onnxruntime as ort
 
-from telos.config import __model_path__
-from telos.utils import visual
+from docly.config import __model_path__
+from doclyutils import visual
 
 
 class YOLOv8:
@@ -224,7 +224,7 @@ def compute_iou(box, boxes):
 if __name__ == "__main__":
     # from imread_from_url import imread_from_url
 
-    model_path = "/home/zyj/project/MOP/telos/core/detection/yolov8n_cdla.onnx"
+    model_path = "/home/zyj/project/MOP/docly/core/detection/yolov8n_cdla.onnx"
 
     # Initialize YOLOv8 object detector
     yolov8_detector = YOLOv8(model_path, conf_thres=0.3, iou_thres=0.5)

@@ -180,6 +180,6 @@ venv.bak/
 **/*.local.yml
 **/.secrets.yml
 
-telos/models
+docly/models
 output-*
 tests/output

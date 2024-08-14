@@ -4,13 +4,13 @@ from typing import List, Union
 
 import numpy as np
 
-from telos import __project__
-from telos.config import __model_path__
-from telos.data import MetaArea, MetaBbox, MetaFile, MetaLayout, MetaText
+from docly import __project__
+from docly.config import __model_path__
+from docly.data import MetaArea, MetaBbox, MetaFile, MetaLayout, MetaText
 
 
 class DataWrap:
-    def _telos(
+    def _docly(
         self,
     ):
         res_nums = len(self.result)

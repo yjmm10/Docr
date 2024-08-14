@@ -1,4 +1,4 @@
-from telos.data import IMG_FORMATS, MetaFile
+from docly.data import IMG_FORMATS, MetaFile
 
 from .model import CVModel, OrtInferSession
 

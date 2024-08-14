@@ -4,7 +4,7 @@ import logging
 import os
 from logging.config import dictConfig
 
-from telos.config import settings
+from docly.config import settings
 
 os.makedirs(settings.LOGPATH, exist_ok=True)
 

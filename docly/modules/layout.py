@@ -1,5 +1,5 @@
-from telos.config import layout
-from telos.core import YOLOv8
+from docly.config import layout
+from docly.core import YOLOv8
 
 from .base import DataWrap
 
