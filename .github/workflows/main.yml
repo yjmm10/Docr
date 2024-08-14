@@ -112,6 +112,30 @@ jobs:
           name: dist
           path: dist
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - uses: actions/checkout@v2
+      - name: 设置Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'  # 根据您的Python版本调整
+      - name: 安装依赖
+        run: |
+          pip install poetry
+          poetry install
+          pip install mkdocs-material mkdocs
+      - name: 构建文档
+        run: mkdocs build
+      - name: 部署到GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          publish_dir: ./site  # MkDocs默认输出目录
+
+
   publish:
     needs: build
     runs-on: ubuntu-latest
@@ -133,7 +157,7 @@ jobs:
           password: ${{ secrets.PYPI_API_TOKEN }}
 
   create-release:
-    needs: publish
+    needs: build
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
