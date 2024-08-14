@@ -7,9 +7,9 @@ from pathlib import Path
 import cv2
 import numpy as np
 import onnxruntime as ort
+from docly.utils import visual
 
 from docly.config import __model_path__
-from doclyutils import visual
 
 
 class YOLOv8:
