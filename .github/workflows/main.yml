@@ -112,7 +112,7 @@ jobs:
           name: dist
           path: dist
 
-  deploy:
+  doc-deploy:
     needs: build
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
@@ -136,7 +136,7 @@ jobs:
           publish_dir: ./site  # MkDocs默认输出目录
 
 
-  publish:
+  pypi-publish:
     needs: build
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
@@ -156,7 +156,7 @@ jobs:
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
 
-  create-release:
+  repo-release:
     needs: build
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
@@ -167,7 +167,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
