@@ -43,6 +43,8 @@ httpx = "^0.27.0"
 
 [tool.poetry.scripts]
 docly = "docly.cmdline:main"
+docs = "docly.docs_commands:serve"
+docs-build = "docly.docs_commands:build"
 
 [build-system]
 requires = ["poetry-core"]
