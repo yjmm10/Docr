@@ -58,6 +58,11 @@ jobs:
       - name: Run tests
         run: |
           tox -e py
+      - name: Check code formatting
+        run: |
+          pip install isort black
+          isort --check-only --diff .
+          black --check --diff .
 
   linting:
     runs-on: ubuntu-latest
